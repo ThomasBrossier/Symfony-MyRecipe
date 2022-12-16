@@ -7,11 +7,15 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% include "layout/_header.html.twig" %}
+        <div class="d-flex flex-column flex-fill">
+            {% block body %}{% endblock %}
+        </div>
+        {% include "layout/_footer.html.twig"%}
+        {% block javascripts %}
+        {% endblock %}
+        {{ encore_entry_script_tags('app') }}
     </body>
 </html>

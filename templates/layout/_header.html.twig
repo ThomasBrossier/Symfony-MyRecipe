@@ -1,0 +1,22 @@
+<header>
+    <div class="logo">
+        <span>MES RECETTES 👨‍🍳</span>
+    </div>
+    {% if is_granted('ROLE_USER') %}
+        <div class="dropdown profile">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ asset('build/images/unknow_profile.svg') }}" alt="unknown profile picture">
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+        </div>
+
+    {% else %}
+        <div class="profile"><a href="#">Se connecter</a></div>
+    {% endif %}
+</header>

@@ -1,0 +1,41 @@
+@import '~bootstrap/scss/bootstrap';
+@import "variables";
+
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background: $bg_light;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex ;
+  flex-flow: column nowrap;
+}
+h1,h2,h3,h4,h5{
+  color: $title-color;
+}
+header{
+  background: $bg_header;
+  height: 60px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: 0 1rem;
+}
+main{
+  width: 75%;
+  min-height: calc(100vh - #{$header_height} - #{$footer_height});
+}
+aside{
+  background: $bg_aside;
+  width : 25%;
+  min-height: calc(100vh - (#{$header_height} - #{$footer_height}));
+}
+footer{
+  background: $bg_footer;
+  height: 60px;
+  display: flex;
+  flex-flow: row nowrap;
+}

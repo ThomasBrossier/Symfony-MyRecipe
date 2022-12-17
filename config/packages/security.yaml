@@ -15,6 +15,9 @@ security:
         main:
             lazy: true
             provider: user_provider
+            remember_me:
+                secret: '%kernel.secret%' # required
+                lifetime: 604800 # 1 week in seconds
             login_throttling:
                 max_attempts: 3
             custom_authenticator: App\Security\MainAuthenticator

@@ -8,6 +8,7 @@
                 <img src="{{ asset('build/images/unknow_profile.svg') }}" alt="unknown profile picture">
             </button>
             <ul class="dropdown-menu">
+                <li class="badge text-bg-light mx-3 my-2">{{ app.user.userIdentifier }}</li>
                 <li><a class="dropdown-item" href="#">Mon Compte</a></li>
                 <li><a class="dropdown-item" href="#">Mon livre de recette</a></li>
                 <li><hr class="dropdown-divider"></li>

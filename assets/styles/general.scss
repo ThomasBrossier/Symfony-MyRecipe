@@ -39,6 +39,11 @@ header{
   }
   }
 }
+
+.content{
+  min-height: calc(100vh - #{$header_height} - #{$footer_height});
+}
+
 main{
   width: 75%;
   min-height: calc(100vh - #{$header_height} - #{$footer_height});
@@ -54,7 +59,6 @@ footer{
   align-items: center;
   justify-content: center;
   min-height: $footer_height;
-  display: flex;
   color: $text_light;
   flex-flow: row nowrap;
 }

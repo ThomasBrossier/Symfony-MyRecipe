@@ -8,15 +8,14 @@
                 <img src="{{ asset('build/images/unknow_profile.svg') }}" alt="unknown profile picture">
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Mon Compte</a></li>
+                <li><a class="dropdown-item" href="#">Mon livre de recette</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                <li><a class="dropdown-item" href="{{path('app_logout')}}">Se déconnecter</a></li>
             </ul>
         </div>
 
     {% else %}
-        <div class="profile"><a href="#">Se connecter</a></div>
+        <div class="profile"><a class="btn btn-primary" href="{{path('app_login')}}">Se connecter</a></div>
     {% endif %}
 </header>

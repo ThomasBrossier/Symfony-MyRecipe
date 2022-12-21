@@ -3,5 +3,14 @@
 {% block title %}Mes Recettes{% endblock %}
 
 {% block body %}
-
+ <div class="container">
+  <section class="my-3 d-flex flex-column justify-content-center align-items-center">
+   <h2>MES CATEGORIES</h2>
+   <div class="category_cards">
+    {% for category in categories %}
+     {{ include('front/_components/_category_card.html.twig')}}
+    {% endfor%}
+   </div>
+  </section>
+ </div>
 {% endblock %}

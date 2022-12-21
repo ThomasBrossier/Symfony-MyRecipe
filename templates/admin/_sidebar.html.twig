@@ -1,6 +1,9 @@
 <aside>
     <div class="accordion accordion-flush" id="accordionFlushExample">
-        <a class="btn btn-secondary m-2" href="{{path('app_dashboard')}}">Tableau de Bord</a>
+        <div class="d-flex flex-row align-items-center justify-content-start">
+            <a class="btn btn-secondary m-2" href="{{path('app_main')}}"><i class="fa-solid fa-house"></i>Accueil</a>
+            <a class="btn btn-secondary m-2" href="{{path('app_dashboard')}}"><i class="fa-solid fa-border-all"></i>Tableau de Bord</a>
+        </div>
         <div class="accordion-item ">
             <h2 class="accordion-header" id="flush-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">

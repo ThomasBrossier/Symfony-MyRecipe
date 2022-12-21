@@ -7,6 +7,7 @@
   box-sizing: border-box;
 }
 body{
+  font-family: 'Roboto', sans-serif;
   background: $bg_light;
   width: 100vw;
   min-height: 100vh;
@@ -30,6 +31,10 @@ header{
   .logo{
     font-weight: bold;
     font-size : $logo_size ;
+    font-family: 'Indie Flower', cursive;
+    img{
+      margin-top: $header_height;
+    }
   }
   .profile{
 

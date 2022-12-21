@@ -6,17 +6,30 @@
         <script src="https://kit.fontawesome.com/673b9056b4.js" crossorigin="anonymous"></script>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('app_admin') }}
         {% endblock %}
 
     </head>
     <body>
         {% include "layout/_header.html.twig" %}
         <div class="d-flex flex-column content">
-            {% block body %}{% endblock %}
+            <div class="d-flex flex-row ">
+                {{ include('admin/_sidebar.html.twig')}}
+            <main>
+                <div class =card>
+                    <div class="card-body">
+                        {% block body %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </main>
+            </div>
         </div>
         {% include "layout/_footer.html.twig"%}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            {{encore_entry_script_tags('app_admin')}}
         {% endblock %}
+
     </body>
 </html>

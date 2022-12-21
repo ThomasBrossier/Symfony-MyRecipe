@@ -1,0 +1,27 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Catégorie de recette : {{ category_recipe.name }}{% endblock %}
+
+{% block body %}
+    <h1>Catégorie de recette : {{ category_recipe.name }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+            </tr>
+            <tr>
+                <td>
+                    <img alt="photo_de_{{category_recipe.name}}" class="img-thumbnail" width="150" src="{{ asset('category/recipes/'~category_recipe.picture)  }}"/>
+                </td>
+                <td>{{ category_recipe.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex flex-row">
+        <a class="btn btn-primary" href="{{ path('app_category_recipe_edit', {'id': category_recipe.id}) }}"><i class="fa-solid fa-pencil"></i> Modifier</a>
+        {{ include('admin/category_recipe/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

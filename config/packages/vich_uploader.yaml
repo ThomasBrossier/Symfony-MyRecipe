@@ -1,0 +1,13 @@
+vich_uploader:
+    db_driver: orm
+    metadata:
+        type: attribute
+    mappings:
+        ingredientCat:
+            uri_prefix: /category/ingredients
+            upload_destination: '%kernel.project_dir%/public/category/ingredients'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        recipeCat:
+            uri_prefix: /category/recipes
+            upload_destination: '%kernel.project_dir%/public/category/recipes'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

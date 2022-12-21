@@ -1,0 +1,35 @@
+{% extends 'base_admin.html.twig' %}
+{% block title %}Liste des Catégories d’ingrédient{% endblock %}
+
+{% block body %}
+    <h1>Liste des Catégories d’ingrédient </h1>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category_ingredient in category_ingredients %}
+            <tr>
+                <td>
+                    <img alt="photo_de_{{category_ingredient.name}}" class="img-thumbnail" width="150" src="{{ asset('category/ingredients/'~category_ingredient.picture)  }}"/>
+                </td>
+                <td>{{ category_ingredient.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('app_category_ingredient_show', {'id': category_ingredient.id}) }}"><i class="fa-solid fa-eye"></i> Voir</a>
+                    <a class="btn btn-danger" href="{{ path('app_category_ingredient_edit', {'id': category_ingredient.id}) }}"><i class="fa-solid fa-pencil"></i> Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_category_ingredient_new') }}"><i class="fa-solid fa-plus"></i> Ajouter</a>
+{% endblock %}

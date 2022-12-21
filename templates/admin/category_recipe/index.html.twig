@@ -1,0 +1,33 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste des Categories de recette{% endblock %}
+
+{% block body %}
+    <h1>Liste des Categories de recette</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category_recipe in category_recipes %}
+            <tr>
+                <td>
+                    <img alt="photo_de_{{category_recipe.name}}" class="img-thumbnail" width="150" src="{{ asset('category/recipes/'~category_recipe.picture)  }}"/>
+                </td>
+                <td>{{ category_recipe.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('app_category_recipe_show', {'id': category_recipe.id}) }}"><i class="fa-solid fa-eye"></i> Voir</a>
+                    <a class="btn btn-danger" href="{{ path('app_category_recipe_edit', {'id': category_recipe.id}) }}"><i class="fa-solid fa-pencil"></i> Modifier</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_category_recipe_new') }}"><i class="fa-solid fa-plus"></i> Ajouter</a>
+{% endblock %}

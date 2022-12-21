@@ -1,4 +1,5 @@
 @import "variables";
+@import "reset_bootstrap";
 
 *{
   margin:0;
@@ -14,6 +15,9 @@ body{
 }
 h1,h2,h3,h4,h5{
   color: $title-color;
+}
+i{
+  margin-right: 0.6rem;
 }
 header{
   background: $blue;
@@ -45,13 +49,17 @@ header{
 }
 
 main{
-  width: 75%;
+  width: 80%;
+  padding: 1.5rem;
   min-height: calc(100vh - #{$header_height} - #{$footer_height});
+  background: lighten($bg_aside,20% );
 }
 aside{
   background: $bg_aside;
-  width : 25%;
+  width : 20%;
+  z-index: 999;
   min-height: calc(100vh - (#{$header_height} - #{$footer_height}));
+  box-shadow: $shadow;
 }
 footer{
   background: $bg_footer;
@@ -61,4 +69,7 @@ footer{
   min-height: $footer_height;
   color: $text_light;
   flex-flow: row nowrap;
+}
+.vich-image img{
+  width: 150px;
 }

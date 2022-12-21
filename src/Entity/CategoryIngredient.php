@@ -2,48 +2,40 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRecipeRepository;
+use App\Repository\CategoryIngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Entity(repositoryClass: CategoryRecipeRepository::class)]
+#[ORM\Entity(repositoryClass: CategoryIngredientRepository::class)]
 #[Vich\Uploadable]
-class CategoryRecipe
+class CategoryIngredient
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 120)]
-    #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 3,
-        max: 120,
-        minMessage: 'Le nom de votre catégorie doit faire au minimum {{ limit }} caractères',
-        maxMessage: 'Le nom de votre catégorie ne peut pas dépasser {{ limit }} caractères',
-    )]
+    #[ORM\Column(length: 150)]
     private ?string $name = null;
 
-    #[Vich\UploadableField(mapping: 'recipeCat', fileNameProperty: 'picture')]
-    private ?File $imageFile = null;
-
-    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'category')]
-    private Collection $recipes;
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Ingredient::class)]
+    private Collection $ingredients;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
+
+    #[Vich\UploadableField(mapping: 'ingredientCat', fileNameProperty: 'picture')]
+    private ?File $imageFile = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
-        $this->recipes = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,27 +56,30 @@ class CategoryRecipe
     }
 
     /**
-     * @return Collection<int, Recipe>
+     * @return Collection<int, Ingredient>
      */
-    public function getRecipes(): Collection
+    public function getIngredients(): Collection
     {
-        return $this->recipes;
+        return $this->ingredients;
     }
 
-    public function addRecipe(Recipe $recipe): self
+    public function addIngredient(Ingredient $ingredient): self
     {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes->add($recipe);
-            $recipe->addCategory($this);
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients->add($ingredient);
+            $ingredient->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeRecipe(Recipe $recipe): self
+    public function removeIngredient(Ingredient $ingredient): self
     {
-        if ($this->recipes->removeElement($recipe)) {
-            $recipe->removeCategory($this);
+        if ($this->ingredients->removeElement($ingredient)) {
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getCategory() === $this) {
+                $ingredient->setCategory(null);
+            }
         }
 
         return $this;
@@ -109,7 +104,7 @@ class CategoryRecipe
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     * @param File|null $imageFile
      */
     public function setImageFile(?File $imageFile = null): void
     {
@@ -126,7 +121,7 @@ class CategoryRecipe
     {
         return $this->imageFile;
     }
-    
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;

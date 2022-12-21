@@ -37,6 +37,10 @@ class Ingredient
     #[ORM\OneToMany(mappedBy: 'ingredients', targetEntity: RecipeIngredient::class)]
     private Collection $recipeIngredients;
 
+    #[ORM\ManyToOne(inversedBy: 'ingredients')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CategoryIngredient $category = null;
+
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
@@ -109,6 +113,18 @@ class Ingredient
                 $recipeIngredient->setIngredients(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?CategoryIngredient
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CategoryIngredient $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

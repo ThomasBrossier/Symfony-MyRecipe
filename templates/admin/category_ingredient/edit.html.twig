@@ -1,0 +1,12 @@
+{% extends 'base_admin.html.twig' %}
+
+
+{% block title %}Modifier une catégorie d’ingrédient{% endblock %}
+
+{% block body %}
+    <h1>Modifier une Catégorie d’ingrédient</h1>
+
+    {{ include('admin/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    {{ include('admin/category_ingredient/_delete_form.html.twig') }}
+{% endblock %}

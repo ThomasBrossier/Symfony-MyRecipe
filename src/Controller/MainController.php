@@ -14,7 +14,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(MailerInterface $mailer): Response
     {
-        return $this->render('main.html.twig', [
+        return $this->render('front/main.html.twig', [
             'controller_name' => 'MainController',
         ]);
     }

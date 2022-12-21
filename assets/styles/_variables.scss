@@ -6,6 +6,7 @@ $secondary :#E6B89C;
 $beige : #E6B89C;
 $grey : #9CAFB7;
 $blue : #9CAFB7;
+$violet : #5B5F97;
 
       /*============== Background ===============*/
 
@@ -13,7 +14,7 @@ $bg_light : lightgray;
 $bg_dark : grey;
 $bg_header : grey ;
 $bg_footer : #211A1D;
-$bg_aside : rgba(0, 0, 0, 0.50);
+$bg_aside : #343a40;
 
 /*============== Text ===============*/
 
@@ -34,3 +35,6 @@ $font_md : 1.5rem;
 $font_lg : 2rem;
 $logo_size : 1.6rem;
 
+/*============== Shadow ===============*/
+
+$shadow : 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22);

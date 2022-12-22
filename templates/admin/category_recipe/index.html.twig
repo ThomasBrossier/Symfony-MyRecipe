@@ -3,8 +3,10 @@
 {% block title %}Liste des Categories de recette{% endblock %}
 
 {% block body %}
-    <h1>Liste des Categories de recette</h1>
-
+    <div class="d-flex flex-row flex-nowrap justify-content-between align-items-center">
+        <h1>Liste des Categories de recette</h1>
+        <a class="btn btn-primary" href="{{ path('app_category_recipe_new') }}"><i class="fa-solid fa-plus"></i> Ajouter</a>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -29,5 +31,5 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('app_category_recipe_new') }}"><i class="fa-solid fa-plus"></i> Ajouter</a>
+
 {% endblock %}

@@ -3,10 +3,16 @@
 {% block title %}Liste des ingrédients{% endblock %}
 
 {% block body %}
-    <h1>Liste des ingrédients</h1>
-    {{ knp_pagination_filter(ingredients, {
-        'name': 'Nom',
-    },{'button':'Filtrer'}) }}
+    <div class="d-flex flex-row flex-nowrap justify-content-between align-items-center">
+        <h1>Liste des ingrédients</h1>
+        <a class="btn btn-primary" href="{{ path('app_ingredient_new') }}"><i class="fa-solid fa-plus"></i> Ajouter</a>
+    </div>
+
+    <div class="d-flex flex-row w-50 my-2">
+        {{ knp_pagination_filter(ingredients, {
+            'name': 'Nom',
+        },{'button':'Filtrer'}) }}
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -42,5 +48,5 @@
         {{ knp_pagination_render(ingredients) }}
     </div>
 
-    <a class="btn btn-primary" href="{{ path('app_ingredient_new') }}">Ajouter</a>
+
 {% endblock %}

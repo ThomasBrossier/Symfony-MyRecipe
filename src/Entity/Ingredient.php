@@ -47,6 +47,9 @@ class Ingredient
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $type = null;
+
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
@@ -168,6 +171,18 @@ class Ingredient
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

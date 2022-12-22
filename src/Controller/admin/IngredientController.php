@@ -5,6 +5,7 @@ namespace App\Controller\admin;
 use App\Entity\Ingredient;
 use App\Form\IngredientType;
 use App\Repository\IngredientRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,28 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class IngredientController extends AbstractController
 {
     #[Route('/', name: 'app_ingredient_index', methods: ['GET'])]
-    public function index(IngredientRepository $ingredientRepository): Response
+    public function index(Request $request, IngredientRepository $ingredientRepository, PaginatorInterface $paginator): Response
     {
+        $filterField = $request->query->get('filterField');
+        $filterValue = $request->query->get('filterValue');
+
+
+        $ingredientsQuery = $ingredientRepository->findBy([],["category" => "ASC"]);
+        if($filterField && $filterValue){
+            $ingredientsQuery=$ingredientRepository->findByName($filterValue);
+        }
+        $ingredients = $paginator->paginate(
+            $ingredientsQuery, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/,
+            ['options' => ['button'=> 'Filtrer']]
+        );
+        $ingredients->setCustomParameters([
+            'align' => 'center',
+            'rounded' => true,
+        ]);
         return $this->render('admin/ingredient/index.html.twig', [
-            'ingredients' => $ingredientRepository->findAll(),
+            'ingredients' => $ingredients,
         ]);
     }
 

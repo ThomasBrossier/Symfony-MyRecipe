@@ -4,13 +4,16 @@
 
 {% block body %}
     <h1>Liste des ingrédients</h1>
-
+    {{ knp_pagination_filter(ingredients, {
+        'name': 'Nom',
+    },{'button':'Filtrer'}) }}
     <table class="table">
         <thead>
             <tr>
                 <th>Photo</th>
-                <th>Nom</th>
-                <th>Catégorie</th>
+                <th>{{ knp_pagination_sortable(ingredients, 'Nom', 'name') }}</th>
+                <th>{{ knp_pagination_sortable(ingredients, 'Catégorie', 'category') }}</th>
+                <th>{{ knp_pagination_sortable(ingredients, 'Type', 'type') }}</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +25,7 @@
                 </td>
                 <td>{{ ingredient.name }}</td>
                 <td>{{ ingredient.category.name }}</td>
+                <td>{{ ingredient.type }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('app_ingredient_show', {'id': ingredient.id}) }}"><i class="fa-solid fa-eye"></i> Voir</a>
                     <a class="btn btn-danger" href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}"><i class="fa-solid fa-pencil"></i> Modifier</a>
@@ -34,6 +38,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="d-flex justify-content-center my-2 my-lg-5">
+        {{ knp_pagination_render(ingredients) }}
+    </div>
 
     <a class="btn btn-primary" href="{{ path('app_ingredient_new') }}">Ajouter</a>
 {% endblock %}

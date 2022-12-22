@@ -44,10 +44,4 @@ class ProfileController extends AbstractController
             'profileForm' => $profile_form->createView(),
         ]);
     }
-    #[Route('/account/edit/{i}', name: 'app_profile_account_edit')]
-    public function account_edit(): Response
-    {
-        return $this->render('front/profile/dashboard.html.twig', [
-        ]);
-    }
 }

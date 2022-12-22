@@ -15,8 +15,7 @@
     <body>
         {% set current_path = app.request.get('_route') %}
         {% include "layout/_header.html.twig" %}
-        <div class="d-flex flex-column content">
-            <div class="d-flex flex-row ">
+        <div class="content">
                 {{ include('admin/_sidebar.html.twig')}}
             <main>
                 <div class =card>
@@ -26,7 +25,6 @@
                     </div>
                 </div>
             </main>
-            </div>
         </div>
         {% include "layout/_footer.html.twig"%}
         {% block javascripts %}

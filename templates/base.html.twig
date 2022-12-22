@@ -20,7 +20,7 @@
         {% endfor %}
         {% set current_path = app.request.get('_route') %}
         {% include "layout/_header.html.twig" %}
-        <div class="d-flex flex-column content">
+        <div class="content">
             {% block body %}{% endblock %}
         </div>
         {% include "layout/_footer.html.twig"%}

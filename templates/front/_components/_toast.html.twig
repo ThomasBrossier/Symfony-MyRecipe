@@ -1,0 +1,14 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div aria-live="polite" aria-atomic="true" class="position-absolute d-flex justify-content-end align-items-center w-100">
+            <div style="z-index: 11" id="liveToast" class="toast align-items-center text-bg-{{label}} border-0 p-1 m-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}

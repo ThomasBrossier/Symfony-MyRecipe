@@ -176,8 +176,6 @@ class ResetPasswordController extends AbstractController
 
             $mailer->send($email);
 
-            $this->addFlash('Success', "E-mail envoyé");
-
         }catch (TransportExceptionInterface $e) {
 
             $this->addFlash('error', $e->getMessage());

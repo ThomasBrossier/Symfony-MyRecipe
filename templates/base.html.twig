@@ -12,15 +12,10 @@
 
     </head>
     <body>
-        {% for message in app.flashes('success') %}
-            {% include 'front/_components/toast.html.twig' with {"message" : message , 'success' : 'success'} %}
-        {% endfor %}
-        {% for message in app.flashes('danger') %}
-            {% include 'front/_components/toast.html.twig' with { "message" : message, 'danger' : 'danger'} %}
-        {% endfor %}
         {% set current_path = app.request.get('_route') %}
         {% include "layout/_header.html.twig" %}
         <div class="content">
+            {% include "front/_components/_toast.html.twig" %}
             {% block body %}{% endblock %}
         </div>
         {% include "layout/_footer.html.twig"%}

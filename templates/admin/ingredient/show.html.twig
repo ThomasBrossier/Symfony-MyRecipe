@@ -1,0 +1,28 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Ingredient : {{ingredient.name}}{% endblock %}
+
+{% block body %}
+    <h1>Ingredient : {{ingredient.name}}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+            </tr>
+            <tr>
+                <td>
+                    <img alt="photo_de_{{ingredient.name}}" class="img-thumbnail" width="150" src="{{ asset('/ingredients/'~ingredient.picture)  }}"/>
+                </td>
+                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.category.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}">Modifier</a>
+
+    {{ include('admin/ingredient/_delete_form.html.twig') }}
+{% endblock %}

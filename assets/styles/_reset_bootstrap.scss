@@ -31,3 +31,7 @@
 .accordion-item{
   background-color: darken( $blue,50%);
 }
+.img-thumbnail{
+  max-height: 100px;
+  object-fit: contain;
+}

@@ -1,0 +1,39 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste des ingrédients{% endblock %}
+
+{% block body %}
+    <h1>Liste des ingrédients</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ingredient in ingredients %}
+            <tr>
+                <td>
+                    <img alt="photo_de_{{ingredient.name}}" class="img-thumbnail" width="150" src="{{ asset('/ingredients/'~ingredient.picture)  }}"/>
+                </td>
+                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.category.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('app_ingredient_show', {'id': ingredient.id}) }}"><i class="fa-solid fa-eye"></i> Voir</a>
+                    <a class="btn btn-danger" href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}"><i class="fa-solid fa-pencil"></i> Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun ingredient trouvé.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_ingredient_new') }}">Ajouter</a>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\security;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -34,18 +35,20 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_main');
         }
         $user = new User();
+        $profile = new Profile();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $profile->setUpdatedAt(new  \DateTimeImmutable());
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
-            );
-
+            )
+                ->setProfile($profile);
             $entityManager->persist($user);
             $entityManager->flush();
 

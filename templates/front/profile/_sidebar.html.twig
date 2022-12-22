@@ -1,0 +1,14 @@
+<aside>
+    <div class="d-flex flex-row align-items-center justify-content-start">
+        <a class="btn btn-secondary m-2" href="{{path('app_main')}}"><i class="fa-solid fa-house"></i>Accueil</a>
+        <a class="btn {{current_path == "app_profile" ? "btn-primary" : "btn-secondary"}} m-2" href="{{path('app_profile')}}"><i class="fa-solid fa-border-all"></i>Tableau de Bord</a>
+    </div>
+    <ul class="nav nav-pills flex-column px-2">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Mes recettes</a>
+        </li>
+        <li class="nav-item">
+            <a class="{{current_path == "app_profile_account" ? "active " : ""}}nav-link" href="{{path('app_profile_account')}}">Mon Compte</a>
+        </li>
+    </ul>
+</aside>

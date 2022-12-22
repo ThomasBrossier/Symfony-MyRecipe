@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation/Modification du mot de passe : Envoie de l'e-mail{% endblock %}
+
+{% block body %}
+<div class="bg_login d-flex flex-column flex-fill justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-header"><h1 class="h3 font-weight-normal">Réinitialisation/Modification du mot de passe : Envoie de l'e-mail</h1></div>
+        <div class="card-body">
+            <p>
+                Si un compte est lié à cet e-mail, alors un lien de réinitialisation/modification vous aura été envoyé sur cet e-mail !
+                Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </p>
+            <p>Si vous n'avez pas reçu l'email, veuillez contrôler votre dossier "SPAM" <a href="{{ path('app_forgot_password_request') }}">Réessayer ?</a>.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

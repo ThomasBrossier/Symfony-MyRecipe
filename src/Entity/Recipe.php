@@ -62,12 +62,12 @@ class Recipe
     #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
-
     #[ORM\Column(length: 255)]
     private ?string $type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Profile $author = null;
 
     public function __construct()
     {
@@ -194,18 +194,6 @@ class Recipe
         return $this;
     }
 
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     public function getType(): ?string
     {
         return $this->type;
@@ -214,6 +202,18 @@ class Recipe
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Profile
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Profile $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

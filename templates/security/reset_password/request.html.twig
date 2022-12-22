@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialiser/Modifier votre mot de passe{% endblock %}
+
+{% block body %}
+<div class="bg_login d-flex flex-column flex-fill justify-content-center align-items-center">
+    <div class="card w-50">
+        <div class="card-header"><h1 class="h3 font-weight-normal">Réinitialiser/Modifier votre mot de passe</h1></div>
+        <div class="card-body">
+            {{ form_start(requestForm) }}
+            {{ form_row(requestForm.email) }}
+            <div>
+                <small>
+                    Veuillez saisir l'adresse email liée à votre profile et nous vous enverrons un lien de réinitialisation/modification.
+                </small>
+            </div>
+
+            <button class="btn btn-primary">Recevoir l'e-mail</button>
+            {{ form_end(requestForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

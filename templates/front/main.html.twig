@@ -4,13 +4,56 @@
 
 {% block body %}
  <div class="container">
-  <section class="my-3 d-flex flex-column justify-content-center align-items-center">
-   <h2>MES CATEGORIES</h2>
+  <section class="my-5 d-flex flex-column justify-content-center align-items-center">
+   <h3>MES CATEGORIES</h3>
    <div class="category_cards">
     {% for category in categories %}
      {{ include('front/_components/_category_card.html.twig')}}
     {% endfor%}
    </div>
   </section>
+ {# <section class="my-5 d-flex flex-column justify-content-center align-items-center">
+   <h3>MES PLATS DE LA SEMAINE</h3>
+   <div class="card w-100">
+    <table class="table  border">
+     <thead>
+     <tr>
+      <th  scope="col"></th>
+      <th  scope="col">Lundi</th>
+      <th  scope="col">Mardi</th>
+      <th  scope="col">Mercredi</th>
+      <th  scope="col">Jeudi</th>
+      <th  scope="col">Vendredi</th>
+      <th  scope="col">Samedi</th>
+      <th  scope="col">Dimanche</th>
+     </tr>
+     </thead>
+     <tbody>
+     <tr>
+      <th scope="row">Midi</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+     </tr>
+     <tr>
+      <th scope="row">Soir</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+     </tr>
+     </tbody>
+
+    </table>
+   </div>
+
+  </section>#}
  </div>
 {% endblock %}

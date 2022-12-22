@@ -30,10 +30,13 @@ header{
   padding: 0 1rem;
   .logo{
     font-weight: bold;
+
     font-size : $logo_size ;
     font-family: 'Indie Flower', cursive;
     img{
       margin-top: $header_height;
+      z-index: 9999;
+      position: relative;
     }
   }
   .profile{
@@ -62,7 +65,8 @@ main{
 aside{
   background: $bg_aside;
   width : 20%;
-  z-index: 999;
+  padding-top : 3rem;
+  z-index: 5;
   min-height: calc(100vh - (#{$header_height} - #{$footer_height}));
   box-shadow: $shadow;
 }

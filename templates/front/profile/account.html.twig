@@ -1,0 +1,57 @@
+
+{% extends 'base.html.twig'%}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_profile') }}
+{% endblock %}
+{% block body %}
+    <div class="d-flex flex-row flex-nowrap">
+        {{ include('front/profile/_sidebar.html.twig')}}
+        <main>
+            <div class="card d-flex flex-row">
+                <div class="avatar">
+                    <img alt="photo de profile" class="position-relative" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "unknow_profile.svg" }}">
+                    <a class="btn btn-secondary" title="Modifier votre photo" data-toggle="tooltip"  data-bs-toggle="offcanvas" href="#offcanvasAvatar" role="button" aria-controls="offcanvasAvatar"><i class="fa-solid fa-camera"></i></a>
+                </div>
+                <div class="mx-4 d-flex flex-column justify-content-evenly w-75">
+                    <div class="d-flex flex-row justify-content-start align-items-center">
+                        <div class="d-flex flex-column flex-grow-1">
+                            <span class="border-bottom" >Nom : {{app.user.profile.firstname}}</span>
+                            <span class="border-bottom">Prénom : {{app.user.profile.lastname}}</span>
+                        </div>
+                        <a class="btn btn-primary flex-grow-0 mx-2" title="Modifier vos informations" data-toggle="tooltip"  data-bs-toggle="offcanvas" href="#offcanvasProfile" role="button" aria-controls="offcanvasProfile"><i class="fa-solid fa-user-pen"></i>Modifier mes informations</a>
+                    </div>
+                    <div class="d-flex flex- align-items-center">
+                        <a href="{{path('app_forgot_password_request')}}" class="btn btn-primary">Modifier mon mot de passe</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAvatar" aria-labelledby="offcanvasAvatarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasAvatarLabel">Modifier votre photo de profil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    {{ form_start(avatarForm) }}
+                        {{form_row(avatarForm.imageFile)}}
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    {{ form_end(avatarForm) }}
+                </div>
+            </div>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasProfile" aria-labelledby="offcanvasProfileLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasProfileLabel">Modifier votre photo de profil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    {{ form_start(profileForm) }}
+                    {{form_row(profileForm.firstname)}}
+                    {{form_row(profileForm.lastname)}}
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                    {{ form_end(profileForm) }}
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock%}

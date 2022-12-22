@@ -1,0 +1,19 @@
+@import "assets/styles/general";
+
+.avatar{
+  position: relative;
+  img{
+    width: 250px;
+    border-radius: 50%;
+    border: 10px solid $text_light;
+  }
+  a{
+    position: absolute;
+    bottom:25px;
+    right:25px;
+    z-index: 5;
+  }
+  i{
+    margin: 0;
+  }
+}

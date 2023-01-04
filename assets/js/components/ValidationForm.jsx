@@ -1,0 +1,34 @@
+import * as Yup from 'yup';
+
+export const initialValues =
+    {
+        title: '',
+        origin: '',
+        category:'',
+        ingredients:[
+            {
+                name : '',
+                quantity :'',
+                unit:''
+            },
+        ],
+    };
+export const ValidationSchema = Yup.object().shape({
+    title: Yup.string()
+        .min(3, 'Le nom doit faire au moins 3 caractères')
+        .max(50, 'Le nom ne doit pas faire plus de 50 caractères')
+        .required('Veuillez saisir un nom de recette'),
+    origin: Yup.string()
+        .min(3, 'L\'origine doit faire au moins 3 caractères !')
+        .max(50, 'L\'origine ne doit pas faire plus de 50 caractères')
+        .required('Veuillez saisir une origine de recette'),
+    category: Yup.string().required('Veuillez sélectionner une catégorie dans la liste'),
+    ingredients: Yup.array().of(Yup.object().shape({
+        name: Yup.string()
+            .required('Veuillez saisir un nom d\'ingrédient'),
+        quantity : Yup.number()
+            .min(1,'La quantité doit être supérieure à 1')
+            .max(10000,'La quantité ne doit pas être supérieur à 10000')
+            .required('Veuillez saisir une quantité pour l\'ingrédient'),
+        unit: Yup.string().required('Veuillez sélectionner une unité de mesure')
+    })).min(2,'Au moins deux ingrédients sont nécessaires à l\'élaboration d\'une recette')});

@@ -166,7 +166,7 @@ class Profile implements \Serializable
 
         return $this;
     }
-    public function serialize()
+    public function serialize(): ?string
     {
         return serialize(array(
             $this->id,
@@ -190,4 +190,5 @@ class Profile implements \Serializable
             // $this->salt
             ) = unserialize($serialized);
     }
+
 }

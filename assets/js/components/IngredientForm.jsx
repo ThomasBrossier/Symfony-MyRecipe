@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, FieldArray, Form, Formik, getIn} from 'formik';
 import {Autocomplete, InputLabel, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
 
-const IngredientForm = ({index, remove,...props}) => {
+const IngredientForm = ({index, remove,setFieldValue,...props}) => {
     const [currentIngredients, setCurrentIngredients] = useState([{name: ''}])
     const handleIngredientChange = (e)=>{
         setTimeout(()=>{
@@ -22,19 +22,19 @@ const IngredientForm = ({index, remove,...props}) => {
                 <Field
                     {...props}
                     component={Autocomplete}
+                    onChange={(e, value) => setFieldValue(`ingredients.${index}.name`, value.id)}
                     options={currentIngredients}
                     getOptionLabel={(option ) => option.name}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     sx={{ width: 400 }}
                     name={`ingredients.${index}.name`}
-                    /*error={props.errors.ingredients[index].name ? true : false}*/
-                    error={getIn(props.errors, `ingredients.${index}.name`) &&
-                        getIn(props.touched, `ingredients.${index}.name`)}
                     renderInput={(params=>
                     <TextField {...params}
                            helperText={<ErrorMessage name={`ingredients.${index}.name`} className="text-danger"/> }
                            label="Ingredient... (ex : tomate)"
                            size="small"
+                           error={getIn(props.errors, `ingredients.${index}.name`) &&
+                                   getIn(props.touched, `ingredients.${index}.name`)}
                            onKeyUp={(e)=> handleIngredientChange(e)}
                     />
                 )}/>

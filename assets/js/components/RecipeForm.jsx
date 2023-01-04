@@ -54,7 +54,7 @@ const RecipeForm = () => {
             initialValues={initialValues}
             validationSchema={ ValidationSchema }
             >
-            {({values,isValid,errors,...props})=>(
+            {({values,isValid,errors, setFieldValue,...props})=>(
                 <Form className="d-flex flex-column">
                     <div className="mb-3 form-group">
                         <Field
@@ -97,11 +97,11 @@ const RecipeForm = () => {
                     <div className="mb-3 form-group">
                         <Box>
                             <FieldArray  name='ingredients' id="ingredients">
-                                {({ insert, remove, push,...props }) => (
+                                {({ remove, push,...props }) => (
                                     <>
                                         {
                                             values.ingredients.map((ingredient, index)=>(
-                                                <IngredientForm  key={index} index={index} remove={remove} errors={errors}/>
+                                                <IngredientForm  key={index} index={index} setFieldValue={setFieldValue} remove={remove} errors={errors}/>
                                             ))
                                         }
                                         <button className="btn btn-secondary my-3" type='button' onClick={()=>push({name:'',quantity:'',unit:''})} >Ajouter un ingredient</button>

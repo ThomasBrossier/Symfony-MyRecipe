@@ -40,7 +40,7 @@ class Recipe
     #[Assert\NotBlank]
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'recipes', targetEntity: RecipeIngredient::class)]
+    #[ORM\OneToMany(mappedBy: 'recipes', targetEntity: RecipeIngredient::class, cascade: ['persist'])]
     #[Assert\Count(
         min: 1,
         minMessage: 'Vous devez ajouter au moins un ingredient à une recette',
@@ -61,9 +61,6 @@ class Recipe
     #[ORM\Column]
     #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     #[ORM\JoinColumn(nullable: true)]
@@ -194,17 +191,7 @@ class Recipe
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
 
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getAuthor(): ?Profile
     {

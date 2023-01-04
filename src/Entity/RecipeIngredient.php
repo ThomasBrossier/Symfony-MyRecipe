@@ -30,6 +30,9 @@ class RecipeIngredient
     #[ORM\ManyToOne(inversedBy: 'recipeIngredients')]
     private ?Recipe $recipes = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $unit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,6 +70,18 @@ class RecipeIngredient
     public function setRecipes(?Recipe $recipes): self
     {
         $this->recipes = $recipes;
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(string $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

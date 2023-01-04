@@ -12,6 +12,7 @@ export const initialValues =
                 unit:''
             },
         ],
+        steps:['']
     };
 export const ValidationSchema = Yup.object().shape({
     title: Yup.string()
@@ -31,4 +32,6 @@ export const ValidationSchema = Yup.object().shape({
             .max(10000,'La quantité ne doit pas être supérieur à 10000')
             .required('Veuillez saisir une quantité pour l\'ingrédient'),
         unit: Yup.string().required('Veuillez sélectionner une unité de mesure')
-    })).min(2,'Au moins deux ingrédients sont nécessaires à l\'élaboration d\'une recette')});
+    })).min(2,'Au moins deux ingrédients sont nécessaires à l\'élaboration d\'une recette'),
+    steps:Yup.array().of((Yup.string().required('Veuillez écrire l\'étape')))
+});

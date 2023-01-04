@@ -17,12 +17,12 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
         },1000)
     }
     return (
-        <div className="d-flex flex-row align-items-center my-1">
+        <div className="d-flex flex-row align-items-start my-1">
             <div className="d-flex flex-column mx-2">
                 <Field
                     {...props}
                     component={Autocomplete}
-                    onChange={(e, value) => setFieldValue(`ingredients.${index}.name`, value.id)}
+                    onChange={(e, value) => setFieldValue(`ingredients.${index}.name`, value ? value.id : "")}
                     options={currentIngredients}
                     getOptionLabel={(option ) => option.name}
                     isOptionEqualToValue={(option, value) => option.id === value.id}

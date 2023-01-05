@@ -73,6 +73,17 @@ const RecipeForm = () => {
                                 }
                             </Field>
                         </div>
+                        <div className="mb-3 form-group">
+                            <Field
+                                type="text"
+                                as={TextField}
+                                helperText={<ErrorMessage name="person"/>}
+                                error={errors.person && props.touched.person}
+                                name="person"
+                                label="Nombre de portions"
+                                placeholder="Ex: 1, 4... "
+                            />
+                        </div>
                     </Card>
                     <div className="mb-3 form-group">
                         <Card className="p-3">

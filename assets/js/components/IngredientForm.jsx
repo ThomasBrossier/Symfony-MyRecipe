@@ -42,6 +42,12 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
             <div className="d-flex flex-column mx-2 w-50">
                 <Field type="number"
                        as={TextField}
+                       InputProps={{
+                           inputProps: {
+                               min: 0,
+                               max:10000
+                           }
+                       }}
                        helperText={<ErrorMessage name={`ingredients.${index}.quantity`}/>}
                        error={getIn(props.errors, `ingredients.${index}.quantity`) &&
                            getIn(props.touched, `ingredients.${index}.quantity`)}
@@ -68,6 +74,9 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                         <MenuItem className="text-secondary" value="mg">Milligramme (mg)</MenuItem>
                         <MenuItem className="text-secondary" value="g">Gramme (g)</MenuItem>
                         <MenuItem className="text-secondary" value="Kg">Kilogramme (Kg)</MenuItem>
+                        <MenuItem className="text-secondary" value="cm">Centimetre (cm)</MenuItem>
+                        <MenuItem className="text-secondary" value="cs">C. à soupe</MenuItem>
+                        <MenuItem className="text-secondary" value="cc">C. à café</MenuItem>
                     <ListSubheader className="text-black text-bg-light">Liquide</ListSubheader>
                         <MenuItem className="text-secondary" value="ml">Millilitre (ml)</MenuItem>
                         <MenuItem className="text-secondary" value="cl">Centilitre (cl)</MenuItem>
@@ -77,6 +86,7 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                         <MenuItem className="text-secondary" value="gousse">gousse</MenuItem>
                         <MenuItem className="text-secondary" value="graine">graine</MenuItem>
                         <MenuItem className="text-secondary" value="pince">pincée</MenuItem>
+                        <MenuItem className="text-secondary" value="unit">unité</MenuItem>
                 </Field>
             </div>
             <button

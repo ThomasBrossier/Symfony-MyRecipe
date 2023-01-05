@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -68,6 +69,17 @@ class Recipe
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeStep::class, orphanRemoval: true)]
     private Collection $recipeSteps;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotBlank]
+    #[Assert\LessThanOrEqual(10)]
+    #[Assert\Length(
+        min: 1,
+        max: 2,
+        minMessage: 'Le nombre de portions doit faire au minimum {{ limit }} caractères',
+        maxMessage: 'Le nombre de portions ne peut pas dépasser {{ limit }} caractères',
+    )]
+    private ?int $person = null;
 
     public function __construct()
     {
@@ -235,6 +247,18 @@ class Recipe
                 $recipeStep->setRecipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPerson(): ?int
+    {
+        return $this->person;
+    }
+
+    public function setPerson(int $person): self
+    {
+        $this->person = $person;
 
         return $this;
     }

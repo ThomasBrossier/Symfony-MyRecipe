@@ -5,6 +5,7 @@ use App\Entity\CategoryIngredient;
 use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
+use App\Entity\RecipeStep;
 use App\Repository\CategoryIngredientRepository;
 use App\Repository\CategoryRecipeRepository;
 use App\Repository\IngredientRepository;
@@ -19,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api')]
 class ApiController extends AbstractController
@@ -55,7 +57,14 @@ class ApiController extends AbstractController
     }
 
     #[Route('/recipe/new', name: 'app_recipe_create', methods: ['POST'])]
-    public function createRecipe(Request $request,RecipeRepository $recipeRepository, CategoryRecipeRepository $categoryRecipeRepository, RecipeIngredientRepository $recipeIngredientRepository , IngredientRepository $ingredientRepository, SluggerInterface $slugger, UserRepository $userRepository): JsonResponse
+    public function createRecipe(Request $request,
+                                 RecipeRepository $recipeRepository,
+                                 CategoryRecipeRepository $categoryRecipeRepository,
+                                 RecipeIngredientRepository $recipeIngredientRepository ,
+                                 IngredientRepository $ingredientRepository,
+                                 SluggerInterface $slugger,
+                                 UserRepository $userRepository,
+                                 ValidatorInterface $validator): JsonResponse
     {
         $datas = json_decode($request->getContent());
         $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
@@ -65,19 +74,29 @@ class ApiController extends AbstractController
              ->setOrigin($datas->origin)
              ->addCategory($category)
              ->setSlug($slugger->slug($recipe->getTitle()) )
-             ->setAuthor($user->getProfile());
+             ->setAuthor($user->getProfile())
+             ->setPerson($datas->person);
         foreach ($datas->ingredients as $ingredient){
             $newIngredient = $ingredientRepository->find($ingredient->name);
             $recipeIngredient = new RecipeIngredient();
             $recipeIngredient->setQuantity($ingredient->quantity)
             ->setIngredients($newIngredient)
             ->setUnit($ingredient->unit);
-            $recipe->addRecipeIngredient($recipeIngredient)
-            ->setCreatedAt(new \DateTimeImmutable())
-            ->setUpdatedAt(new \DateTimeImmutable());
+            $recipe->addRecipeIngredient($recipeIngredient);
         }
-        /*$recipeRepository->save($recipe, true);*/
 
+        foreach ($datas->steps as $step){
+            $newStep = new RecipeStep();
+            $newStep->setContent($step);
+            $recipe->addRecipeStep($newStep);
+        }
+        $errors = $validator->validate($recipe);
+        if(count($errors) > 0){
+            return  new JsonResponse(['status'=>'400','errors'=> json_encode($errors)],400);
+        }
+        $recipe->setCreatedAt(new \DateTimeImmutable())
+               ->setUpdatedAt(new \DateTimeImmutable());
+        $recipeRepository->save($recipe, true);
         return  new JsonResponse(['status'=>'200','result'=>'OK'],201);
     }
 

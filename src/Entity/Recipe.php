@@ -66,10 +66,14 @@ class Recipe
     #[ORM\JoinColumn(nullable: true)]
     private ?Profile $author = null;
 
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeStep::class, orphanRemoval: true)]
+    private Collection $recipeSteps;
+
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->recipeSteps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,6 +205,36 @@ class Recipe
     public function setAuthor(?Profile $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeStep>
+     */
+    public function getRecipeSteps(): Collection
+    {
+        return $this->recipeSteps;
+    }
+
+    public function addRecipeStep(RecipeStep $recipeStep): self
+    {
+        if (!$this->recipeSteps->contains($recipeStep)) {
+            $this->recipeSteps->add($recipeStep);
+            $recipeStep->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeStep(RecipeStep $recipeStep): self
+    {
+        if ($this->recipeSteps->removeElement($recipeStep)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeStep->getRecipe() === $this) {
+                $recipeStep->setRecipe(null);
+            }
+        }
 
         return $this;
     }

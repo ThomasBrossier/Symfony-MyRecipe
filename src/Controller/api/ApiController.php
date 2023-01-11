@@ -12,6 +12,7 @@ use App\Repository\IngredientRepository;
 use App\Repository\RecipeIngredientRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\UserRepository;
+use App\Service\ApiDataTransform;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,40 +65,49 @@ class ApiController extends AbstractController
                                  IngredientRepository $ingredientRepository,
                                  SluggerInterface $slugger,
                                  UserRepository $userRepository,
-                                 ValidatorInterface $validator): JsonResponse
-    {
-        $datas = json_decode($request->getContent());
-        $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
-        $category =  $categoryRecipeRepository->find($datas->category);
-        $recipe = new Recipe();
-        $recipe->setTitle($datas->title)
-             ->setOrigin($datas->origin)
-             ->addCategory($category)
-             ->setSlug($slugger->slug($recipe->getTitle()) )
-             ->setAuthor($user->getProfile())
-             ->setPerson($datas->person);
-        foreach ($datas->ingredients as $ingredient){
-            $newIngredient = $ingredientRepository->find($ingredient->name);
-            $recipeIngredient = new RecipeIngredient();
-            $recipeIngredient->setQuantity($ingredient->quantity)
-            ->setIngredients($newIngredient)
-            ->setUnit($ingredient->unit);
-            $recipe->addRecipeIngredient($recipeIngredient);
-        }
+                                 ValidatorInterface $validator,
+                                ApiDataTransform $dataTransform ): JsonResponse
 
-        foreach ($datas->steps as $step){
-            $newStep = new RecipeStep();
-            $newStep->setContent($step);
-            $recipe->addRecipeStep($newStep);
+    {
+         $file = $request->files->get('picture') ;
+         $datas = $dataTransform->formatRecipe($request->request->all());
+        if (!empty($datas) && !empty($file)) {
+            $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
+            $category =  $categoryRecipeRepository->find($datas['category']);
+            $recipe = new Recipe();
+            $recipe->setTitle($datas['title'])
+                ->setOrigin($datas['origin'])
+                ->addCategory($category)
+                ->setSlug($slugger->slug($recipe->getTitle()) )
+                ->setAuthor($user->getProfile())
+                ->setPerson($datas['person']);
+
+            foreach ($datas['ingredients'] as $ingredient){
+                $newIngredient = $ingredientRepository->find($ingredient->name);
+                $recipeIngredient = new RecipeIngredient();
+
+                $recipeIngredient->setQuantity($ingredient->quantity)
+                    ->setIngredients($newIngredient)
+                    ->setUnit($ingredient->unit);
+                $recipe->addRecipeIngredient($recipeIngredient);
+            }
+
+            foreach ($datas['steps'] as $step){
+                $newStep = new RecipeStep();
+                $newStep->setContent($step);
+                $recipe->addRecipeStep($newStep);
+            }
+            $recipe->setImageFile($file);
+            $recipe->setCreatedAt(new \DateTimeImmutable());
+            $errors = $validator->validate($recipe);
+            if(count($errors) > 0){
+                return  new JsonResponse(['status'=>'400','errors'=> json_encode($errors)],400);
+            }
+            $recipeRepository->save($recipe, true);
+            return  new JsonResponse(['status'=>'200','result'=>'OK'],201);
+        }else{
+            return  new JsonResponse(['status'=>'400','result'=>'missing values'],400);
         }
-        $errors = $validator->validate($recipe);
-        if(count($errors) > 0){
-            return  new JsonResponse(['status'=>'400','errors'=> json_encode($errors)],400);
-        }
-        $recipe->setCreatedAt(new \DateTimeImmutable())
-               ->setUpdatedAt(new \DateTimeImmutable());
-        $recipeRepository->save($recipe, true);
-        return  new JsonResponse(['status'=>'200','result'=>'OK'],201);
     }
 
 }

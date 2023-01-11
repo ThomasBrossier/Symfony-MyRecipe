@@ -9,7 +9,7 @@ const StepForm = ({index, remove,...props}) => {
                 <Field type="number"
                        multiline
                        as={TextField}
-                       helperText={<ErrorMessage name={`steps.${index}`}/>}
+                       helperText={<ErrorMessage className="text-danger" name={`steps.${index}`}/>}
                        error={getIn(props.errors, `steps.${index}`) &&
                            getIn(props.touched, `steps.${index}`)}
                        size="small"

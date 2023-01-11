@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {ErrorMessage, Field, FieldArray, Form, Formik, getIn} from 'formik';
-import {Autocomplete, InputLabel, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
+import React, { useState} from 'react';
+import {ErrorMessage, Field, getIn} from 'formik';
+import {Autocomplete, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
 
 const IngredientForm = ({index, remove,setFieldValue,...props}) => {
     const [currentIngredients, setCurrentIngredients] = useState([{name: ''}])
@@ -45,10 +45,11 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                        InputProps={{
                            inputProps: {
                                min: 0,
-                               max:10000
+                               max:10000,
+                               step:'0.5'
                            }
                        }}
-                       helperText={<ErrorMessage name={`ingredients.${index}.quantity`}/>}
+                       helperText={<ErrorMessage className="text-danger" name={`ingredients.${index}.quantity`}/>}
                        error={getIn(props.errors, `ingredients.${index}.quantity`) &&
                            getIn(props.touched, `ingredients.${index}.quantity`)}
                        size="small"
@@ -61,7 +62,7 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                     as={TextField}
                     select
                     size="small"
-                    helperText={<ErrorMessage name={`ingredients.${index}.unit`}/> }
+                    helperText={<ErrorMessage className="text-danger" name={`ingredients.${index}.unit`}/> }
                     error={getIn(props.errors, `ingredients.${index}.unit`) &&
                         getIn(props.touched, `ingredients.${index}.unit`)}
                     label="Veuillez sélectionner une unité"

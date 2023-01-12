@@ -25,7 +25,7 @@ class RecipeIngredient
     private ?string $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeIngredients')]
-    private ?Ingredient $ingredients = null;
+    private ?Ingredient $ingredient = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeIngredients')]
     private ?Recipe $recipes = null;
@@ -50,14 +50,14 @@ class RecipeIngredient
         return $this;
     }
 
-    public function getIngredients(): ?Ingredient
+    public function getIngredient(): ?Ingredient
     {
-        return $this->ingredients;
+        return $this->ingredient;
     }
 
-    public function setIngredients(?Ingredient $ingredients): self
+    public function setIngredient(?Ingredient $ingredients): self
     {
-        $this->ingredients = $ingredients;
+        $this->ingredient = $ingredients;
 
         return $this;
     }

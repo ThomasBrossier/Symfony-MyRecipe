@@ -87,7 +87,7 @@ class ApiController extends AbstractController
                 $recipeIngredient = new RecipeIngredient();
 
                 $recipeIngredient->setQuantity($ingredient->quantity)
-                    ->setIngredients($newIngredient)
+                    ->setIngredient($newIngredient)
                     ->setUnit($ingredient->unit);
                 $recipe->addRecipeIngredient($recipeIngredient);
             }

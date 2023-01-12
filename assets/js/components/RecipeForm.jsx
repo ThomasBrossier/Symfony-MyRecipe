@@ -46,7 +46,7 @@ const RecipeForm = () => {
                 }
                 fetch('https://127.0.0.1:8000/api/recipe/new',params)
                     .then(res => res.json())
-                    /*.then(()=> resetForm(initialValues))*/
+                    .then(()=> resetForm(initialValues))
             }}
             initialValues={initialValues}
             validationSchema={ ValidationSchema }

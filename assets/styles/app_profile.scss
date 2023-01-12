@@ -6,6 +6,8 @@
     width: 250px;
     border-radius: 50%;
     border: 10px solid $text_light;
+    box-shadow: $shadow_circle;
+    margin: -20px 0 0 -20px;
   }
   a{
     position: absolute;

@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Form\ProfileAvatarType;
-use App\Form\ProfileType;
+use App\Form\Profile\ProfileAvatarType;
+use App\Form\Profile\ProfileType;
 use App\Repository\ProfileRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

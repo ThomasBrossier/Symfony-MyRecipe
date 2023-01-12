@@ -27,3 +27,10 @@ vich_uploader:
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             delete_on_update: true
             delete_on_remove: true
+        recipe_pic:
+            uri_prefix: /recipes
+            upload_destination: '%kernel.project_dir%/public/recipes'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true

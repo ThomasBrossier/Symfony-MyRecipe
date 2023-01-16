@@ -28,9 +28,11 @@ class RecipeIngredient
     private ?Ingredient $ingredient = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeIngredients')]
+    #[Assert\NotNull]
     private ?Recipe $recipes = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $unit = null;
 
     public function getId(): ?int

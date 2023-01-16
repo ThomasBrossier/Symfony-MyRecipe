@@ -31,7 +31,7 @@ class Ingredient
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255 , nullable: true)]
     private ?string $picture = null;
 
     #[Vich\UploadableField(mapping: 'ingredient', fileNameProperty: 'picture')]
@@ -45,6 +45,7 @@ class Ingredient
     private ?CategoryIngredient $category = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotNull]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 50)]
@@ -89,7 +90,7 @@ class Ingredient
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
@@ -133,7 +134,7 @@ class Ingredient
     {
         if (!$this->recipeIngredients->contains($recipeIngredient)) {
             $this->recipeIngredients->add($recipeIngredient);
-            $recipeIngredient->setIngredients($this);
+            $recipeIngredient->setIngredient($this);
         }
 
         return $this;
@@ -143,8 +144,8 @@ class Ingredient
     {
         if ($this->recipeIngredients->removeElement($recipeIngredient)) {
             // set the owning side to null (unless already changed)
-            if ($recipeIngredient->getIngredients() === $this) {
-                $recipeIngredient->setIngredients(null);
+            if ($recipeIngredient->getIngredient() === $this) {
+                $recipeIngredient->setIngredient(null);
             }
         }
 

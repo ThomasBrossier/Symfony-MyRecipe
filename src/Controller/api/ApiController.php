@@ -23,9 +23,18 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ *  Controller for api crud requests
+ */
 #[Route('/api')]
+
 class ApiController extends AbstractController
 {
+    /**
+     * @param CategoryRecipeRepository $categoryRecipeRepository
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
     #[Route('/recipe/categories', name: 'app_recipe_categories', methods: ['GET'])]
     public function getCategories(CategoryRecipeRepository $categoryRecipeRepository,  SerializerInterface $serializer): Response
     {
@@ -41,6 +50,13 @@ class ApiController extends AbstractController
             JSON_OBJECT_AS_ARRAY
         ));
     }
+
+    /**
+     * @param Request $request
+     * @param IngredientRepository $ingredientRepository
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
     #[Route('/recipe/ingredients', name: 'app_recipe_ingredients', methods: ['GET'])]
     public function getIngredients(Request $request, IngredientRepository $ingredientRepository , SerializerInterface $serializer): Response
     {
@@ -57,6 +73,18 @@ class ApiController extends AbstractController
         );
     }
 
+    /**
+     * @param Request $request
+     * @param RecipeRepository $recipeRepository
+     * @param CategoryRecipeRepository $categoryRecipeRepository
+     * @param RecipeIngredientRepository $recipeIngredientRepository
+     * @param IngredientRepository $ingredientRepository
+     * @param SluggerInterface $slugger
+     * @param UserRepository $userRepository
+     * @param ValidatorInterface $validator
+     * @param ApiDataTransform $dataTransform
+     * @return JsonResponse
+     */
     #[Route('/recipe/new', name: 'app_recipe_create', methods: ['POST'])]
     public function createRecipe(Request $request,
                                  RecipeRepository $recipeRepository,

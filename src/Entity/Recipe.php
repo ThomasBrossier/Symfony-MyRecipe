@@ -67,6 +67,7 @@ class Recipe
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Assert\NotNull]
     private ?Profile $author = null;
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeStep::class, cascade: ['persist'], orphanRemoval: true)]

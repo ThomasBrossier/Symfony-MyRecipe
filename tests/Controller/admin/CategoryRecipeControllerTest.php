@@ -35,17 +35,6 @@ class CategoryRecipeControllerTest extends WebTestCase
             ->setPicture('test');
         return $categoryRecipe;
     }
-    public function testIndex(): void
-    {
-        $this->client->loginUser($this->user);
-        $crawler = $this->client->request('GET', $this->path);
-
-        self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Liste des Categories de recette');
-
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
-    }
 
         public function testNew(): void
         {

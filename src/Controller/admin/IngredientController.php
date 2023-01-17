@@ -12,9 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ *  Admin crud for ingredients
+ */
 #[Route('admin/ingredient')]
 class IngredientController extends AbstractController
 {
+    /**
+     * @param Request $request
+     * @param IngredientRepository $ingredientRepository
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
     #[Route('/', name: 'app_ingredient_index', methods: ['GET'])]
     public function index(Request $request, IngredientRepository $ingredientRepository, PaginatorInterface $paginator): Response
     {
@@ -41,6 +50,12 @@ class IngredientController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param IngredientRepository $ingredientRepository
+     * @param SluggerInterface $slugger
+     * @return Response
+     */
     #[Route('/new', name: 'app_ingredient_new', methods: ['GET', 'POST'])]
     public function new(Request $request, IngredientRepository $ingredientRepository, SluggerInterface $slugger): Response
     {
@@ -60,6 +75,10 @@ class IngredientController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Ingredient $ingredient
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_ingredient_show', methods: ['GET'])]
     public function show(Ingredient $ingredient): Response
     {
@@ -68,6 +87,12 @@ class IngredientController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Ingredient $ingredient
+     * @param IngredientRepository $ingredientRepository
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_ingredient_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ingredient $ingredient, IngredientRepository $ingredientRepository): Response
     {
@@ -86,6 +111,12 @@ class IngredientController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Ingredient $ingredient
+     * @param IngredientRepository $ingredientRepository
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_ingredient_delete', methods: ['POST'])]
     public function delete(Request $request, Ingredient $ingredient, IngredientRepository $ingredientRepository): Response
     {

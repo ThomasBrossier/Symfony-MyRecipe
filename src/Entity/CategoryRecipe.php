@@ -39,6 +39,7 @@ class CategoryRecipe
     private ?string $picture = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()

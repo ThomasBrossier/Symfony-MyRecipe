@@ -19,15 +19,32 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+/**
+ * Controller for registration
+ */
 class RegistrationController extends AbstractController
 {
+    /**
+     * @var EmailVerifier
+     */
     private EmailVerifier $emailVerifier;
 
+    /**
+     * @param EmailVerifier $emailVerifier
+     */
     public function __construct(EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
     }
 
+    /**
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param UserAuthenticatorInterface $userAuthenticator
+     * @param MainAuthenticator $authenticator
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, MainAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -74,6 +91,11 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {

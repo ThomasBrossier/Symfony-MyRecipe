@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Tests\Entity;
+
+use App\Entity\CategoryIngredient;
+use App\Entity\CategoryRecipe;
+use App\Entity\Ingredient;
+use App\Entity\Profile;
+use App\Entity\Recipe;
+use App\Entity\RecipeIngredient;
+use App\Entity\RecipeStep;
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
+class RecipeTest extends KernelTestCase
+{
+    public function getEntity(): Recipe
+    {
+        $categoryIngredient = new CategoryIngredient();
+        $categoryIngredient->setName('test')
+            ->setPicture('test')
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $ingredient = new Ingredient();
+        $ingredient->setName('test')
+            ->setSlug('test')
+            ->setType('test')
+            ->setPicture('test')
+            ->setCategory($categoryIngredient);
+        $recipeIngredient = new RecipeIngredient();
+        $recipeIngredient->setQuantity(2)
+            ->setIngredient($ingredient)
+            ->setUnit('cm');
+
+        $categoryRecipe = new CategoryRecipe();
+        $categoryRecipe->setUpdatedAt(new \DateTimeImmutable())
+            ->setPicture('test')
+            ->setName('test');
+        $user = new User();
+        $user->setEmail('test@test.fr')
+            ->setPassword('test')
+            ->setRoles([]);
+        $profile = new Profile();
+        $profile->setLastname('test')
+            ->setFirstname('test')
+            ->setAvatar('test')
+            ->setUser($user);
+        $recipeStep = new RecipeStep();
+        $recipeStep->setContent('test');
+        $recipe = new Recipe();
+        $recipe->addRecipeStep($recipeStep)
+            ->setPicture('test')
+            ->setSlug('test')
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setPerson(2)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setOrigin('test')
+            ->setTitle('test')
+            ->setAuthor($profile)
+            ->addCategory($categoryRecipe)
+        ->addRecipeIngredient($recipeIngredient);
+
+        return $recipe;
+    }
+
+    public function testEntityIsValid(): void
+    {
+        $kernel = self::bootKernel();
+        $container = static::getContainer();
+
+        $recipe = $this->getEntity();
+        $errors = $container->get('validator')->validate($recipe);
+        $this->assertCount(0,$errors);
+    }
+    public function testInValidValues(): void
+    {
+        $kernel = self::bootKernel();
+        $container = static::getContainer();
+        $recipe = $this->getEntity();
+        $recipe->setPicture('')
+            ->setSlug('')
+            ->setPerson(2)
+            ->setOrigin('')
+            ->setTitle('')
+            ->setAuthor(null);
+
+        $errors = $container->get('validator')->validate($recipe);
+
+        $this->assertCount(6,$errors);
+    }
+}

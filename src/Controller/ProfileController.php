@@ -10,15 +10,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ *   Controller for user profile
+ */
 #[Route('/profile')]
 class ProfileController extends AbstractController
 {
+    /**
+     * @return Response
+     */
     #[Route('/', name: 'app_profile')]
     public function index(): Response
     {
         return $this->render('front/profile/dashboard.html.twig', [
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param ProfileRepository $profileRepository
+     * @return Response
+     */
     #[Route('/account', name: 'app_profile_account')]
     public function account( Request $request, ProfileRepository $profileRepository): Response
     {

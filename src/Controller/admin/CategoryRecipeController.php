@@ -10,9 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Admin Crud for Recipe categories
+ */
 #[Route('admin/category/recipe')]
 class CategoryRecipeController extends AbstractController
 {
+    /**
+     * @param CategoryRecipeRepository $categoryRecipeRepository
+     * @return Response
+     */
     #[Route('/', name: 'app_category_recipe_index', methods: ['GET'])]
     public function index(CategoryRecipeRepository $categoryRecipeRepository): Response
     {
@@ -21,6 +28,11 @@ class CategoryRecipeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param CategoryRecipeRepository $categoryRecipeRepository
+     * @return Response
+     */
     #[Route('/new', name: 'app_category_recipe_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CategoryRecipeRepository $categoryRecipeRepository): Response
     {
@@ -40,6 +52,10 @@ class CategoryRecipeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param CategoryRecipe $categoryRecipe
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_category_recipe_show', methods: ['GET'])]
     public function show(CategoryRecipe $categoryRecipe): Response
     {
@@ -48,6 +64,12 @@ class CategoryRecipeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param CategoryRecipe $categoryRecipe
+     * @param CategoryRecipeRepository $categoryRecipeRepository
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_category_recipe_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CategoryRecipe $categoryRecipe, CategoryRecipeRepository $categoryRecipeRepository): Response
     {
@@ -66,6 +88,12 @@ class CategoryRecipeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param CategoryRecipe $categoryRecipe
+     * @param CategoryRecipeRepository $categoryRecipeRepository
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_category_recipe_delete', methods: ['POST'])]
     public function delete(Request $request, CategoryRecipe $categoryRecipe, CategoryRecipeRepository $categoryRecipeRepository): Response
     {

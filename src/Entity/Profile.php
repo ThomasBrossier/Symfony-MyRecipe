@@ -178,7 +178,7 @@ class Profile implements \Serializable
         ));
     }
 
-    public function unserialize($serialized)
+    public function unserialize($data)
     {
         list (
             $this->id,
@@ -188,7 +188,25 @@ class Profile implements \Serializable
 
             // see section on salt below
             // $this->salt
-            ) = unserialize($serialized);
+            ) = unserialize($data);
+    }
+    public function __serialize(): array {
+        return array(
+            $this->id,
+            $this->firstname,
+            $this->lastname,
+            $this->avatar,
+            // see section on salt below
+            // $this->salt,
+        );
+    }
+    public function __unserialize(array $data): void {
+       list (
+            $this->id,
+            $this->firstname,
+            $this->lastname,
+            $this->avatar,
+            ) = $data;
     }
 
 }

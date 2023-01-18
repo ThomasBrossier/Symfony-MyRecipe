@@ -2,13 +2,16 @@ import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import {ErrorMessage, FastField, Field, FieldArray, Form, Formik} from 'formik';
 import IngredientForm from "./IngredientForm";
-import {Box, Card, Input, InputLabel, MenuItem, TextField} from "@mui/material";
+import {Box, Card, Input, InputLabel, MenuItem, Snackbar, TextField, Alert} from "@mui/material";
 import {initialValues, ValidationSchema} from "./ValidationForm";
 import StepForm from "./stepForm";
 
 const RecipeForm = () => {
     const [categories, setCategories] = useState([]);
-    const [currentPictureName, setCurrentPictureName] = useState( )
+    const [currentPictureName, setCurrentPictureName] = useState();
+    const [snackBarContent , setSnackBarContent] = useState("");
+    const [snackBarOpen , switchSnackBarOpen] = useState(false);
+    const [success , setSuccess] = useState(true);
     useEffect(()=>{
         fetch('https://127.0.0.1:8000/api/recipe/categories')
             .then(res=> res.json())
@@ -30,6 +33,16 @@ const RecipeForm = () => {
         }};
 
     return (
+        <>
+            <Snackbar open={snackBarOpen}
+                      autoHideDuration={3000}
+                      onClose={()=>switchSnackBarOpen(false)}
+                      anchorOrigin={{vertical : 'top', horizontal: 'right'} }>
+                <Alert severity={ success ? "success" : "error" } sx={{ width: '100%' }}>
+                    {snackBarContent}
+                </Alert>
+            </Snackbar>
+
         <Formik
             onSubmit={( values ,{resetForm}) => {
                 /* Then create a new FormData obj */
@@ -46,10 +59,17 @@ const RecipeForm = () => {
                 }
                 fetch('https://127.0.0.1:8000/api/recipe/new',params)
                     .then(res => res.json())
-                    .then(()=> {
-                        resetForm(initialValues);
-                        setCurrentPictureName('');
-                        console.log(values['ingredients']);
+                    .then((res)=> {
+                        if(res.status === 200){
+                            resetForm(initialValues);
+                            setCurrentPictureName('');
+                            setSuccess(true);
+                            setSnackBarContent(res.result);
+                        }else{
+                            setSnackBarContent(res.error);
+                            setSuccess(false);
+                        }
+                        switchSnackBarOpen(true);
                     })
             }}
             initialValues={initialValues}
@@ -164,6 +184,7 @@ const RecipeForm = () => {
                 </Form>
             )}
         </Formik>
+        </>
     );
 }
 export default RecipeForm;

@@ -66,4 +66,12 @@ class RecipeController extends AbstractController
             'recipe'=> $recipe
         ]);
     }
+    #[Route('/{id}', name: 'app_recipe_edit', methods: ['GET'])]
+    public function editRecipe(Recipe $recipe): Response
+    {
+
+        return $this->render('front/recipe_show.html.twig', [
+            'recipe'=> $recipe
+        ]);
+    }
 }

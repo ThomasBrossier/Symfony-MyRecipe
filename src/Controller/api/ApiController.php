@@ -129,12 +129,12 @@ class ApiController extends AbstractController
             $recipe->setCreatedAt(new \DateTimeImmutable());
             $errors = $validator->validate($recipe);
             if(count($errors) > 0){
-                return  new JsonResponse(['status'=>'400','errors'=> "Une erreur est survenue",400]);
+                return  new JsonResponse(['status'=>'400','error'=> "Une erreur est survenue",400]);
             }
             $recipeRepository->save($recipe, true);
-            return  new JsonResponse(['status'=>'200','result'=>'OK'],201);
+            return  new JsonResponse(['status'=>'200','result'=>'Recette enregistrée'],201);
         }else{
-            return  new JsonResponse(['status'=>'400','result'=>'missing values'],400);
+            return  new JsonResponse(['status'=>'400','error'=>'Le formulaire n\'a pas été rempli correctement'],400);
         }
     }
 

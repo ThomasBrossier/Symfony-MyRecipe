@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {ErrorMessage, Field, FieldArray, Form, Formik, getIn} from 'formik';
+import {ErrorMessage, FastField, Field, FieldArray, Form, Formik, getIn} from 'formik';
 import {Autocomplete, InputLabel, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
 
 const StepForm = ({index, remove,...props}) => {
     return (
         <div className="d-flex flex-row align-items-start my-1">
             <div className="d-flex flex-column mx-2 w-50">
-                <Field type="number"
+                <FastField type="number"
                        multiline
                        as={TextField}
                        helperText={<ErrorMessage className="text-danger" name={`steps.${index}`}/>}

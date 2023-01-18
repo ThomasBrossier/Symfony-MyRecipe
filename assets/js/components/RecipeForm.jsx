@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
+import {ErrorMessage, FastField, Field, FieldArray, Form, Formik} from 'formik';
 import IngredientForm from "./IngredientForm";
 import {Box, Card, Input, InputLabel, MenuItem, TextField} from "@mui/material";
 import {initialValues, ValidationSchema} from "./ValidationForm";
@@ -9,13 +9,13 @@ import StepForm from "./stepForm";
 const RecipeForm = () => {
     const [categories, setCategories] = useState([]);
     const [currentPictureName, setCurrentPictureName] = useState( )
-    const [currentPicture, setCurrentPicture] = useState( )
     useEffect(()=>{
         fetch('https://127.0.0.1:8000/api/recipe/categories')
             .then(res=> res.json())
             .then(data => setCategories(data))
             .catch(err=> console.error(err));
     },[])
+
     const UploadFile = (event, setFieldValue) => {
         if (!event.target.files?.length) return;
         const fileReader = new FileReader();
@@ -28,12 +28,12 @@ const RecipeForm = () => {
             }
             setFieldValue('picture', file)
         }};
+
     return (
         <Formik
-            onSubmit={( values , {resetForm}) => {
+            onSubmit={( values ,{resetForm}) => {
                 /* Then create a new FormData obj */
                 let formData = new FormData();
-                console.log(values['picture'])
                 /* append input field values to formData */
                 for (let value in values) {
                     formData.append(value, JSON.stringify(values[value]) );
@@ -46,7 +46,11 @@ const RecipeForm = () => {
                 }
                 fetch('https://127.0.0.1:8000/api/recipe/new',params)
                     .then(res => res.json())
-                    .then(()=> resetForm(initialValues))
+                    .then(()=> {
+                        resetForm(initialValues);
+                        setCurrentPictureName('');
+                        console.log(values['ingredients']);
+                    })
             }}
             initialValues={initialValues}
             validationSchema={ ValidationSchema }
@@ -56,7 +60,7 @@ const RecipeForm = () => {
                 <Form className="d-flex flex-column">
                     <Card className="p-3 mb-3">
                         <div className="mb-3 form-group">
-                            <Field
+                            <FastField
                                 type="text"
                                 as={TextField}
                                 helperText={<ErrorMessage name="title"/>}
@@ -68,7 +72,7 @@ const RecipeForm = () => {
 
                         </div>
                         <div className="mb-3 form-group">
-                            <Field
+                            <FastField
                                 type="text"
                                 as={TextField}
                                 helperText={<ErrorMessage name="origin"/>}
@@ -80,7 +84,7 @@ const RecipeForm = () => {
                             />
                         </div>
                         <div className="mb-3 form-group">
-                            <Field
+                            <FastField
                                 as={TextField}
                                 select
                                 helperText={<ErrorMessage name="category"/>}
@@ -93,11 +97,11 @@ const RecipeForm = () => {
                                     categories && categories.map( category => (
                                         <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>))
                                 }
-                            </Field>
+                            </FastField>
                         </div>
                         <div className="d-flex flex-row justify-content-between">
                             <div className="mb-3 form-group w-50">
-                                <Field
+                                <FastField
                                     type="text"
                                     as={TextField}
                                     helperText={<ErrorMessage name="person"/>}
@@ -114,18 +118,6 @@ const RecipeForm = () => {
                                     name="picture"
                                     type="file"
                                     onChange={(e)=>UploadFile(e, setFieldValue)}
-                                    /*onChange={(e) => {
-                                        let reader = new FileReader();
-                                        let file = e.target.files[0];
-                                        if (file) {
-                                            reader.onloadend = () => setCurrentPictureName(file.name);
-                                            if (file.name !== currentPictureName) {
-                                                reader.readAsDataURL(file);
-                                                setCurrentPicture(reader);
-                                    setFieldValue('picture',file);
-                                }
-                                }
-                                    }}*/
                                 />
                                 <ErrorMessage className="text-danger" name="picture" component="div" />
                             </div>
@@ -140,7 +132,7 @@ const RecipeForm = () => {
                                     <>
                                         {
                                             values.ingredients.map((ingredient, index)=>(
-                                                <IngredientForm  key={index} index={index} setFieldValue={setFieldValue} remove={remove} errors={errors}/>
+                                                <IngredientForm key={index + "-" + ingredient} index={index} setFieldValue={setFieldValue} remove={remove} errors={errors}/>
                                             ))
                                         }
                                         <button className="btn btn-secondary my-3" type='button' onClick={()=>push({name:'',quantity:'',unit:''})} >Ajouter un ingredient</button>

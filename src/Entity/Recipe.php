@@ -31,12 +31,9 @@ class Recipe
     )]
     private ?string $title = null;
 
-    #[ORM\Column(length: 150)]
-    #[Assert\NotBlank]
+    #[ORM\Column(length: 150, nullable: true)]
     #[Assert\Length(
-        min: 3,
         max: 150,
-        minMessage: 'L\'origine de votre recette doit faire au minimum {{ limit }} caractères',
         maxMessage: 'L\'origine de votre recette ne peut pas dépasser {{ limit }} caractères',
     )]
     private ?string $origin = null;

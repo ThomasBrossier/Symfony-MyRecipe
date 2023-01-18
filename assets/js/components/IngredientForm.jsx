@@ -1,28 +1,37 @@
 import React, { useState} from 'react';
-import {ErrorMessage, Field, getIn} from 'formik';
-import {Autocomplete, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
+import {ErrorMessage, FastField, Field, getIn, isEmptyArray} from 'formik';
+import {Autocomplete, CircularProgress, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
 
 const IngredientForm = ({index, remove,setFieldValue,...props}) => {
     const [currentIngredients, setCurrentIngredients] = useState([{name: ''}])
+    const [loading , setLoading ] = useState(false);
     const handleIngredientChange = (e)=>{
+        setLoading(true);
         setTimeout(()=>{
             fetch('https://127.0.0.1:8000/api/recipe/ingredients?' + new URLSearchParams({
                 ingredient : e.target.value,
             }))
                 .then(res=> res.json())
                 .then(data => {
+                    setLoading(false);
                     setCurrentIngredients(data);
                 });
-            console.log(e.target.value)
-        },1000)
+        },500)
+
     }
     return (
         <div className="d-flex flex-row align-items-start my-1">
             <div className="d-flex flex-column mx-2">
                 <Field
                     {...props}
+
                     component={Autocomplete}
-                    onChange={(e, value) => setFieldValue(`ingredients.${index}.name`, value ? value.id : "")}
+                    loading={loading}
+                    loadingText={"Chargement..."}
+                    noOptionsText={"Cette ingredient n'est pas répertorié"}
+                    onChange={(e, value) => {
+                        setFieldValue(`ingredients.${index}.name`, value ? value.id : "");
+                    } }
                     options={currentIngredients}
                     getOptionLabel={(option ) => option.name}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -35,12 +44,21 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                            size="small"
                            error={getIn(props.errors, `ingredients.${index}.name`) &&
                                    getIn(props.touched, `ingredients.${index}.name`)}
-                           onKeyUp={(e)=> handleIngredientChange(e)}
+                           onChange={(e)=> handleIngredientChange(e)}
+                           InputProps={{
+                                ...params.InputProps,
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                   ),
+                               }}
                     />
                 )}/>
             </div>
             <div className="d-flex flex-column mx-2 w-50">
-                <Field type="number"
+                <FastField type="number"
                        as={TextField}
                        InputProps={{
                            inputProps: {
@@ -58,7 +76,7 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                 />
             </div>
             <div className="d-flex flex-column mx-2 w-50">
-                <Field
+                <FastField
                     as={TextField}
                     select
                     size="small"
@@ -88,7 +106,7 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                         <MenuItem className="text-secondary" value="graine">graine</MenuItem>
                         <MenuItem className="text-secondary" value="pince">pincée</MenuItem>
                         <MenuItem className="text-secondary" value="unit">unité</MenuItem>
-                </Field>
+                </FastField>
             </div>
             <button
                 type="button"

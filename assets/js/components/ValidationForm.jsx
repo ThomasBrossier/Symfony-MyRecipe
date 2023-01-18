@@ -24,13 +24,14 @@ export const ValidationSchema = Yup.object().shape({
     origin: Yup.string()
         .min(3, 'L\'origine doit faire au moins 3 caractères !')
         .max(50, 'L\'origine ne doit pas faire plus de 50 caractères')
-        .required('Veuillez saisir une origine de recette'),
+        ,
     category: Yup.string().required('Veuillez sélectionner une catégorie dans la liste'),
     person: Yup.number().required('Veuillez saisir le nombre de portions').max(10, 'Le nombre de portions ne peut dépasser 10 parts').test(
         'Is positive?',
         'ERROR: The number must be greater than 0!',
         (value) => value > 0
     ),
+    picture:Yup.mixed().required('Une image est requise'),
     ingredients: Yup.array().of(Yup.object().shape({
         name: Yup.string()
             .required('Veuillez saisir un nom d\'ingrédient'),
@@ -41,5 +42,4 @@ export const ValidationSchema = Yup.object().shape({
         unit: Yup.string().required('Veuillez sélectionner une unité de mesure')
     })).min(2,'Au moins deux ingrédients sont nécessaires à l\'élaboration d\'une recette'),
     steps:Yup.array().of((Yup.string().required('Veuillez écrire l\'étape'))),
-    picture:Yup.mixed().required('Une image est requise is required'),
 });

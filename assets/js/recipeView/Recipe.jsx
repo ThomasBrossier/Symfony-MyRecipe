@@ -15,6 +15,7 @@ const Recipe = ({message, isAuth}) => {
     const [recipeUpdate, setRecipeUpdate] = useState({
         id: recipe.id,
         updatedSteps : [],
+        removedSteps : [],
         addedSteps : [],
         recipeIngredients : [],
     });

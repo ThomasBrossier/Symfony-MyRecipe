@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Recipe;
 use App\Entity\RecipeStep;
+use App\Repository\RecipeStepRepository;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
@@ -13,7 +14,7 @@ class ApiDataTransform
 
 
 
-    public function __construct( private readonly HtmlSanitizerInterface $htmlSanitizer )
+    public function __construct( private readonly HtmlSanitizerInterface $htmlSanitizer, private RecipeStepRepository $recipeStepRepository )
     {
     }
 
@@ -67,6 +68,12 @@ class ApiDataTransform
                 $step = new RecipeStep();
                 $step->setContent($newStep->content);
                 $recipe->addRecipeStep($step);
+            }
+        }
+        if(!empty($data->removedSteps)){
+            foreach ($data->removedSteps as $removedStep){
+                $recipeToRemove = $this->recipeStepRepository->find($removedStep->id);
+                $recipe->removeRecipeStep($recipeToRemove);
             }
         }
 

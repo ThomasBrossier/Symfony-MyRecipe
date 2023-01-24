@@ -35,6 +35,17 @@ const Step = ({recipeStep, index}) => {
         setRecipeUpdate({...recipeUpdate, steps : [...recipeUpdate.updatedSteps, updatedRecipeStep]})
         setEditing(false)
     }
+
+    const deleteStep =()=>{
+        if(confirm("Etes vous sur de vouloir supprimer cette étape ?")){
+            const deletedRecipe = {...recipeStep};
+            const arr = [...recipe.recipeSteps]
+            arr.splice(index-1,1);
+            setRecipe({...recipe, recipeSteps : arr});
+            setRecipeUpdate({...recipeUpdate, removedSteps : [...recipeUpdate.removedSteps, deletedRecipe]})
+        }
+    }
+
     return (
         <div className="step-row d-flex  m-2 mx-4 align-items-center  justify-content-evenly w-75 ">
             <h4>{index}</h4>
@@ -45,7 +56,7 @@ const Step = ({recipeStep, index}) => {
                         { editMode ?
                             <>
                                 <button className="btn btn-primary main-btn" onClick={() => setEditing(true)}>Editer</button>
-                                <button className="btn btn-danger mx-1 main-btn"><i
+                                <button className="btn btn-danger mx-1 main-btn" onClick={deleteStep}><i
                                     className="fa-solid fa-trash mx-0"></i></button>
                             </>
                             : ""}

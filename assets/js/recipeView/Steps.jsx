@@ -48,7 +48,14 @@ const Base = ({recipeSteps}) => {
                             { error ?  <p className="text-danger mt-2">{errorMessage}</p> : ""}
                         </div>
                         <button className="btn btn-success" onClick={()=>addNewStep()} >Créer</button>
-                        <button className="btn btn-secondary" onClick={()=>{setAddingStep(false); setError(false)}} >Annuler</button>
+                        <button className="btn btn-secondary"
+                                onClick={()=>{
+                                    setAddingStep(false);
+                                    setError(false);
+                                    setNewStep("");
+                            }} >
+                            Annuler
+                        </button>
                     </div>
                     :
                     editMode ?

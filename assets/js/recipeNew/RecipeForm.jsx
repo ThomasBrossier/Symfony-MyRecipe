@@ -64,7 +64,7 @@ const RecipeForm = () => {
                             resetForm(initialValues);
                             setCurrentPictureName('');
                             setSuccess(true);
-                            setSnackBarContent(res.result);
+
                         }else{
                             setSnackBarContent(res.error);
                             setSuccess(false);
@@ -188,7 +188,7 @@ const RecipeForm = () => {
     );
 }
 export default RecipeForm;
-const root = ReactDOM.createRoot (document.getElementById('react_form'));
+const root = ReactDOM.createRoot(document.getElementById('react_form'));
 root.render(
     <React.StrictMode>
         <RecipeForm />

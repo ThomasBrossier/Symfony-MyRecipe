@@ -48,8 +48,25 @@
       border-radius: 5px;
     }
 }
+}
 
-  /*============== Recipe Card ===============*/
+/*============== Show Recipe ===============*/
 
+.recipe-view{
+  .recipe-image{
+    height: 300px;
+    object-fit: cover;
+  }
+}
 
+.step-row{
+  button{
+    display: none;
+  }
+  &:hover{
+    background-color: lightblue;
+    button{
+      display: block;
+    }
+  }
 }

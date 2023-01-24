@@ -6,6 +6,7 @@ use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeStep;
+use App\Factory\JsonResponseFactory;
 use App\Repository\CategoryIngredientRepository;
 use App\Repository\CategoryRecipeRepository;
 use App\Repository\IngredientRepository;
@@ -13,6 +14,7 @@ use App\Repository\RecipeIngredientRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiDataTransform;
+use PHPUnit\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -136,6 +138,28 @@ class ApiController extends AbstractController
         }else{
             return  new JsonResponse(['status'=>'400','error'=>'Le formulaire n\'a pas été rempli correctement'],400);
         }
+    }
+
+    #[Route('/recipe/update/{id}', name: 'app_recipe_update', methods: ['POST'])]
+    public function updateRecipe(Request $request,
+                                 Recipe $recipe ,
+                                 RecipeRepository $recipeRepository,
+                                 UserRepository $userRepository,
+                                 ApiDataTransform $dataTransform,
+                                 ): Response
+    {
+        $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
+        if($user->getId() !== $recipe->getAuthor()->getUser()->getId()){
+            return new JsonResponse(['status'=>'403','result'=>'Vous ne pouvez pas modifier cette recette'],403);
+        }
+        try {
+            $newRecipe = $dataTransform->repopulateRecipe(json_decode($request->getContent()),$recipe);
+            $recipeRepository->save($newRecipe,true);
+        }catch (Exception $e){
+            return new JsonResponse(['status'=>'500','result'=>'Erreur de modification'],500);
+        }
+
+        return new JsonResponse(['status'=>'200','result'=>'Recette modifiée'],200);
     }
 
 }

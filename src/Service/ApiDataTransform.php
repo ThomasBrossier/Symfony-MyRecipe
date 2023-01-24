@@ -2,20 +2,67 @@
 
 namespace App\Service;
 
+use App\Entity\Recipe;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
+
 class ApiDataTransform
 {
-function formatRecipe($formData) : array{
-    $array = [];
-    foreach ($formData as $key => $value){
-        if($key !== 'picture'){
-            if ($key !== 'person'){
-                $array[$key] = json_decode($value);
-            }else{
-                $array[$key] =  (int)$value;
-            }
 
-        }
+
+
+    public function __construct( private readonly HtmlSanitizerInterface $htmlSanitizer )
+    {
     }
-    return $array;
-}
+
+    public function formatRecipe($formData) : array{
+        $array = [];
+        foreach ($formData as $key => $value){
+            if($key !== 'picture'){
+                if ($key !== 'person'){
+                    $array[$key] = json_decode($value);
+                }else{
+                    $array[$key] =  (int)$value;
+                }
+
+            }
+        }
+        return $array;
+    }
+
+    public function repopulateRecipe( $data , Recipe $recipe) : Recipe
+    {
+
+        if(isset($data->title)){
+            $recipe->setTitle($data->title);
+        }
+        if (isset($data->person)){
+            $recipe->setPerson($data->person);
+        }
+
+        if(!empty($data->recipeIngredient) )
+        foreach ($data->recipeIngredients as $newRecipeIngredient){
+            $id = $data->recipeIngredients->id;
+            foreach ($recipe->getRecipeIngredients() as $recipeIngredient){
+                if($id === $recipeIngredient->getId()){
+                    $recipeIngredient->setUnit($newRecipeIngredient->unit)
+                        ->setQuantity($newRecipeIngredient->quantity);
+                }
+            }
+        }
+        if(!empty($data->steps)){
+            foreach ($data->steps as $newRecipeStep){
+                $id = $newRecipeStep->id;
+                foreach ($recipe->getRecipeSteps() as $recipeStep ){
+                    if($id === $recipeStep->getId()){
+                        $recipeStep->setContent( $newRecipeStep->content);
+                    }
+                }
+            }
+        }
+
+        return $recipe;
+    }
+
 }

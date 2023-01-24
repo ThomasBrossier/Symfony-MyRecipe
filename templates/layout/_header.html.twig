@@ -2,10 +2,10 @@
     <div class="logo">
         <img  height="120" src="{{asset('build/images/logo.svg')}}" /><span>MES RECETTES</span>
     </div>
-    {% if is_granted('ROLE_USER') %}
+    {% if app.user is defined and is_granted('ROLE_USER') %}
         <div class="dropdown profile">
             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="rounded-circle" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "unknow_profile.svg" }}" alt="unknown profile picture">
+                <img class="rounded-circle" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}" alt="unknown profile picture">
             </button>
             <ul class="dropdown-menu">
                 <li class="badge text-bg-light mx-3 my-2">{{ app.user.userIdentifier }}</li>

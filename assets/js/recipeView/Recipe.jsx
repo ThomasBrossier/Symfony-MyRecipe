@@ -14,7 +14,8 @@ const Recipe = ({message, isAuth}) => {
     const [isSending, setIsSending] = useState(false);
     const [recipeUpdate, setRecipeUpdate] = useState({
         id: recipe.id,
-        steps : [],
+        updatedSteps : [],
+        addedSteps : [],
         recipeIngredients : [],
     });
 
@@ -36,7 +37,6 @@ const Recipe = ({message, isAuth}) => {
         }else{
             setSuccess(false)
         }
-        console.log(res);
         setSnackBarContent(res.result);
         switchSnackBarOpen(true)
         setIsSending(false);

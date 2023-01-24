@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Recipe;
+use App\Entity\RecipeStep;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
@@ -51,14 +52,21 @@ class ApiDataTransform
                 }
             }
         }
-        if(!empty($data->steps)){
-            foreach ($data->steps as $newRecipeStep){
-                $id = $newRecipeStep->id;
+        if(!empty($data->updatedSteps)){
+            foreach ($data->updatedSteps as $updatedRecipeStep){
+                $id = $updatedRecipeStep->id;
                 foreach ($recipe->getRecipeSteps() as $recipeStep ){
                     if($id === $recipeStep->getId()){
-                        $recipeStep->setContent( $newRecipeStep->content);
+                        $recipeStep->setContent( $updatedRecipeStep->content);
                     }
                 }
+            }
+        }
+        if(!empty($data->addedSteps)){
+            foreach ($data->addedSteps as $newStep){
+                $step = new RecipeStep();
+                $step->setContent($newStep->content);
+                $recipe->addRecipeStep($step);
             }
         }
 

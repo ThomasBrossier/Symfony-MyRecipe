@@ -60,12 +60,12 @@
 }
 
 .step-row{
-  button{
+  .main-btn{
     display: none;
   }
   &:hover{
     background-color: lightblue;
-    button{
+    .main-btn{
       display: block;
     }
   }

@@ -4,7 +4,7 @@ import {trim} from "core-js/internals/string-trim";
 
 const Step = ({recipeStep, index}) => {
 
-    const {recipeUpdate,editMode, setRecipeUpdate, recipe, setRecipe} = useContext(AuthContext);
+    const {editMode, recipe, setRecipe,setSuccess, setSnackBarContent, switchSnackBarOpen} = useContext(AuthContext);
     const [editing, setEditing] = useState(false)
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('');
@@ -23,32 +23,60 @@ const Step = ({recipeStep, index}) => {
             setError(true)
         }
     }
-    const updateContent = ()=>{
+    const updateContent = async ()=>{
         if (error){
             return
         }
         const updatedRecipeStep = {...recipeStep};
         updatedRecipeStep.content = stepContent;
-        const arr = [...recipe.recipeSteps]
-        arr.splice(index-1,1, updatedRecipeStep)
-        setRecipe({...recipe, recipeSteps : arr})
-        setRecipeUpdate({...recipeUpdate, steps : [...recipeUpdate.updatedSteps, updatedRecipeStep]})
+
+        const data = JSON.stringify(updatedRecipeStep);
+        let params = {
+            body : data,
+            method:'POST',
+        }
+        let response = await fetch('/api/recipe/'+ recipe.id + '/step', params)
+        let res = await response.json();
+        if(res.status === "200" ){
+            const arr = [...recipe.recipeSteps]
+            arr.splice(index,1, updatedRecipeStep)
+            setRecipe({...recipe, recipeSteps : arr})
+        }else{
+            setSuccess(false)
+        }
+        setSnackBarContent(res.result);
+        switchSnackBarOpen(true)
         setEditing(false)
     }
 
-    const deleteStep =()=>{
+    const deleteStep = async ()=>{
         if(confirm("Etes vous sur de vouloir supprimer cette étape ?")){
             const deletedRecipe = {...recipeStep};
-            const arr = [...recipe.recipeSteps]
-            arr.splice(index-1,1);
-            setRecipe({...recipe, recipeSteps : arr});
-            setRecipeUpdate({...recipeUpdate, removedSteps : [...recipeUpdate.removedSteps, deletedRecipe]})
+            const data = JSON.stringify(deletedRecipe);
+            let params = {
+                body : data,
+                method:'POST',
+            }
+            let response = await fetch('/api/recipe/'+ recipe.id + '/step/delete', params)
+            let res = await response.json();
+            if(res.status === "200" ){
+                setSuccess(true);
+                const arr = [...recipe.recipeSteps]
+                arr.splice(index,1);
+                setRecipe({...recipe, recipeSteps : arr});
+            }else{
+                setSuccess(false)
+            }
+            setSnackBarContent(res.result);
+            switchSnackBarOpen(true)
+            setEditing(false)
+
         }
     }
 
     return (
         <div className="step-row d-flex  m-2 mx-4 align-items-center  justify-content-evenly w-75 ">
-            <h4>{index}</h4>
+            <h4>{index + 1 }</h4>
             {
                 !editing ?
                     <>

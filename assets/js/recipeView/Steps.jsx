@@ -2,11 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import Step from "./components/Step";
 import {trim} from "core-js/internals/string-trim";
 import {AuthContext} from "../config";
+import {Modal} from "@mui/material";
 
 
 
 const Base = ({recipeSteps}) => {
-    const {recipeUpdate,editMode, setRecipeUpdate, recipe, setRecipe} = useContext(AuthContext);
+    const {editMode, recipe, setRecipe,setSuccess, setSnackBarContent, switchSnackBarOpen} = useContext(AuthContext);
     const [addingStep, setAddingStep ] = useState(false);
     const [newStep, setNewStep ] = useState("");
     const [error, setError] = useState(false);
@@ -15,7 +16,7 @@ const Base = ({recipeSteps}) => {
     const handleNewStepChange = (e)=>{
         setNewStep(e.target.value);
     }
-    const addNewStep = ()=>{
+    const addNewStep = async ()=>{
         setError(false);
         setErrorMessage("");
         if(trim(newStep) === ""){
@@ -26,9 +27,22 @@ const Base = ({recipeSteps}) => {
             setError(true)
         }else{
             const newRecipeStep = { content: newStep }
-            setRecipe({...recipe, recipeSteps : [...recipe.recipeSteps,newRecipeStep]})
-            setRecipeUpdate({...recipeUpdate, addedSteps : [...recipeUpdate.addedSteps, newRecipeStep]})
-            setAddingStep(false);
+
+            const data = JSON.stringify(newRecipeStep);
+            let params = {
+                body : data,
+                method:'POST',
+            }
+            let response = await fetch('/api/recipe/'+ recipe.id + '/step/new', params)
+            let res = await response.json();
+            if(res.status === "200" ){
+                setRecipe({...recipe, recipeSteps : [...recipe.recipeSteps,newRecipeStep]})
+                setAddingStep(false);
+            }else{
+                setSuccess(false)
+            }
+            setSnackBarContent(res.result);
+            switchSnackBarOpen(true)
         }
     }
 
@@ -37,7 +51,7 @@ const Base = ({recipeSteps}) => {
             <div className="d-flex flex-column align-items-start">
                 {
                     recipeSteps.map((recipeStep, index)=>{
-                        return  <Step key={recipeStep.id+"-"+(Math.random()*10000)} index={index+1} recipeStep={recipeStep}   />
+                        return  <Step key={recipeStep.id+"-"+(Math.random()*10000)} index={index} recipeStep={recipeStep}   />
                     })
                 }
                 {

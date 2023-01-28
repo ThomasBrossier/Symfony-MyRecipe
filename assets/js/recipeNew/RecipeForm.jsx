@@ -57,10 +57,10 @@ const RecipeForm = () => {
                     mode: 'same-origin',
                     method:'POST',
                 }
-                fetch('https://127.0.0.1:8000/api/recipe/new',params)
+                fetch('/api/recipe/new',params)
                     .then(res => res.json())
                     .then((res)=> {
-                        if(res.status === 200){
+                        if(res.status === "200"){
                             resetForm(initialValues);
                             setCurrentPictureName('');
                             setSuccess(true);

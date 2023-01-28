@@ -70,3 +70,17 @@
     }
   }
 }
+
+.my-modal{
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  padding: 1rem;
+  z-index: 999;
+  background-color: white;
+  box-shadow: $box-shadow;
+}

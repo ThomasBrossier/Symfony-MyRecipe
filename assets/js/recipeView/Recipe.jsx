@@ -12,36 +12,9 @@ const Recipe = ({message, isAuth}) => {
     const [recipe, setRecipe] = useState(JSON.parse(message));
     const [editMode, setEditMode] = useState(isAuth);
     const [isSending, setIsSending] = useState(false);
-    const [recipeUpdate, setRecipeUpdate] = useState({
-        id: recipe.id,
-        updatedSteps : [],
-        removedSteps : [],
-        addedSteps : [],
-        recipeIngredients : [],
-    });
-
     const [snackBarContent , setSnackBarContent] = useState("");
     const [snackBarOpen , switchSnackBarOpen] = useState(false);
     const [success , setSuccess] = useState(true);
-
-    const handleSubmit = async ()=>{
-        setIsSending(true);
-        const data = JSON.stringify(recipeUpdate);
-        let params = {
-            body : data,
-            method:'POST',
-        }
-        let response = await fetch('https://127.0.0.1:8000/api/recipe/update/'+ recipe.id, params)
-        let res = await response.json();
-        if(res.status === "200" ){
-            setSuccess(true);
-        }else{
-            setSuccess(false)
-        }
-        setSnackBarContent(res.result);
-        switchSnackBarOpen(true)
-        setIsSending(false);
-    }
 
     return (
         <>
@@ -53,20 +26,11 @@ const Recipe = ({message, isAuth}) => {
                 {snackBarContent}
             </Alert>
         </Snackbar>
-        <AuthContext.Provider value={{ recipeUpdate,editMode, setRecipeUpdate, recipe, setRecipe }} >
+        <AuthContext.Provider value={{ editMode, recipe, setRecipe, setSuccess, setSnackBarContent, switchSnackBarOpen }} >
             <img className="border rounded recipe-image" alt="" src={ pathRecipe + recipe.picture }/>
             <div className="my-1 p-2 d-flex flex-column">
                 <Base recipeIngredients={recipe.recipeIngredients} />
                 <Steps recipeSteps={recipe.recipeSteps} />
-                { editMode ?
-
-                    <button className="btn btn-success align-self-end d-flex align-items-center justify-content-between" onClick={()=>handleSubmit()} >
-                        { isSending ? <><CircularProgress size={"1rem"} color={'secondary'}/>    Enregistrement... </> :  "Enregistrer les modifications" }
-                    </button>
-
-                    :
-
-                    ""}
             </div>
         </AuthContext.Provider>
         </>

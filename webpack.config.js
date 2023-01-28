@@ -75,7 +75,8 @@ Encore
 
     // uncomment if you use React
     .enableReactPreset()
-    .addEntry('react_form','./assets/js/components/RecipeForm.jsx')
+    .addEntry('react_form','./assets/js/recipeNew/RecipeForm.jsx')
+    .addEntry('react-root','./assets/js/recipeView/Recipe.jsx')
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())

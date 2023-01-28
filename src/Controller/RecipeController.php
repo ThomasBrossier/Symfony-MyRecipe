@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\CategoryRecipe;
 use App\Entity\Recipe;
+use App\Factory\JsonResponseFactory;
 use App\Repository\CategoryRecipeRepository;
+use App\Repository\RecipeRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/recipe')]
 class RecipeController extends AbstractController
 {
+    public function __construct(private JsonResponseFactory $jsonResponseFactory)
+    {
+    }
     /**
      * @param CategoryRecipeRepository $categoryRecipeRepository
      * @return Response
@@ -56,22 +61,25 @@ class RecipeController extends AbstractController
 
     /**
      * @param Recipe $recipe
+     * @param RecipeRepository $recipeRepository
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     #[Route('/{id}', name: 'app_recipe_show', methods: ['GET'])]
-    public function show(Recipe $recipe): Response
+    public function show(Recipe $recipe, RecipeRepository $recipeRepository): Response
     {
-
+        $recipe = $recipeRepository->findCompleteOneById($recipe->getId());
+        if( $this->getUser()->getUserIdentifier() === $recipe->getAuthor()->getUser()->getUserIdentifier()){
+            $isAuthor = true;
+        }else{
+            $isAuthor = false;
+        }
+        $json = $this->jsonResponseFactory->create($recipe);
         return $this->render('front/recipe_show.html.twig', [
-            'recipe'=> $recipe
+            'recipe'=> $recipe,
+            'json' => $json,
+            'isAuthor' => $isAuthor
         ]);
     }
-    #[Route('/{id}', name: 'app_recipe_edit', methods: ['GET'])]
-    public function editRecipe(Recipe $recipe): Response
-    {
 
-        return $this->render('front/recipe_show.html.twig', [
-            'recipe'=> $recipe
-        ]);
-    }
 }

@@ -1,18 +1,18 @@
 <?php
 
 namespace App\Controller\api;
-use App\Entity\CategoryIngredient;
-use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeStep;
-use App\Repository\CategoryIngredientRepository;
 use App\Repository\CategoryRecipeRepository;
 use App\Repository\IngredientRepository;
 use App\Repository\RecipeIngredientRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\RecipeStepRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiDataTransform;
+use Couchbase\User;
+use PHPUnit\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,28 +28,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 #[Route('/api')]
 
-class ApiController extends AbstractController
+class ApiRecipeController extends AbstractController
 {
-    /**
-     * @param CategoryRecipeRepository $categoryRecipeRepository
-     * @param SerializerInterface $serializer
-     * @return Response
-     */
-    #[Route('/recipe/categories', name: 'app_recipe_categories', methods: ['GET'])]
-    public function getCategories(CategoryRecipeRepository $categoryRecipeRepository,  SerializerInterface $serializer): Response
-    {
-        $categories = $categoryRecipeRepository->findBy([],['name'=>'ASC']);
-
-        return $this->json(
-            json_decode(
-            $serializer->serialize(
-                $categories,
-                'json',
-                [AbstractNormalizer::IGNORED_ATTRIBUTES => ['recipes']]
-            ),
-            JSON_OBJECT_AS_ARRAY
-        ));
-    }
 
     /**
      * @param Request $request
@@ -137,6 +117,19 @@ class ApiController extends AbstractController
             return  new JsonResponse(['status'=>'400','error'=>'Le formulaire n\'a pas été rempli correctement'],400);
         }
     }
+
+    #[Route('/recipe/update/{id}', name: 'app_recipe_update', methods: ['POST'])]
+    public function updateRecipe(Request $request, UserRepository $userRepository, Recipe $recipe): Response
+    {
+        $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
+        if($user->getId() !== $recipe->getAuthor()->getUser()->getId()){
+            return new JsonResponse(['status'=>'403','result'=>'Vous ne pouvez pas modifier cette recette'],403);
+        }
+        return new JsonResponse(['status'=>'200','result'=>'Recette modifiée'],200);
+    }
+
+
+
 
 }
 

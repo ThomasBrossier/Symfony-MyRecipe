@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -33,6 +34,7 @@ class CategoryRecipe
     private ?File $imageFile = null;
 
     #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'category')]
+    #[Ignore]
     private Collection $recipes;
 
     #[ORM\Column(length: 255, nullable: true)]

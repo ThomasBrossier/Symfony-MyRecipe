@@ -10,7 +10,7 @@
         <main>
             <div class="card d-flex flex-row justify-content-between m-4">
                 <div class="avatar">
-                    <img alt="photo de profile" class="position-relative" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "unknow_profile.svg" }}">
+                    <img alt="photo de profile" class="position-relative" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}">
                     <a class="btn btn-secondary" title="Modifier votre photo" data-toggle="tooltip"  data-bs-toggle="offcanvas" href="#offcanvasAvatar" role="button" aria-controls="offcanvasAvatar"><i class="fa-solid fa-camera"></i></a>
                 </div>
                 <div class="mx-4 d-flex flex-column justify-content-evenly w-75">
@@ -41,7 +41,7 @@
             </div>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasProfile" aria-labelledby="offcanvasProfileLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasProfileLabel">Modifier votre photo de profil</h5>
+                    <h5 class="offcanvas-title" id="offcanvasProfileLabel">Modifier votre profil</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">

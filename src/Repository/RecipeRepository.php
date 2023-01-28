@@ -54,13 +54,22 @@ class RecipeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Recipe
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findCompleteOneById($id): ?Recipe
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.author','a')->addSelect('a')
+            ->leftJoin('r.recipeIngredients','ri')->addSelect('ri')
+            ->leftJoin('r.category','cat')->addSelect('cat')
+            ->leftJoin('ri.ingredient','ing')->addSelect('ing')
+            ->leftJoin('ing.category','catIng')->addSelect('catIng')
+            ->leftJoin('r.recipeSteps','steps')->addSelect('steps')
+            ->andWhere('r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

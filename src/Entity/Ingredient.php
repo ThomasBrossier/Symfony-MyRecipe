@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
@@ -37,7 +38,8 @@ class Ingredient
     #[Vich\UploadableField(mapping: 'ingredient', fileNameProperty: 'picture')]
     private ?File $imageFile = null;
 
-    #[ORM\OneToMany(mappedBy: 'ingredients', targetEntity: RecipeIngredient::class)]
+    #[ORM\OneToMany(mappedBy: 'ingredient', targetEntity: RecipeIngredient::class)]
+    #[Ignore]
     private Collection $recipeIngredients;
 
     #[ORM\ManyToOne(inversedBy: 'ingredients')]

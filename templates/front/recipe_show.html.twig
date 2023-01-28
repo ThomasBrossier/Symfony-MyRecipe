@@ -3,47 +3,23 @@
 {% block title %}Recette : {{recipe.title}} {% endblock %}
 
 {% block body %}
-    <div class="container my-4" >
-        <div class="d-flex flex-nowrap justify-content-between align-items-center">
-            <h1 class="my-3" >Recette : {{recipe.title}}</h1>
-            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary">Revenir à la catégorie</a>
+    <div  class="container my-4" >
+        <div  class="d-flex flex-nowrap justify-content-between align-items-center">
+            <h1 class="my-3">Recette : {{recipe.title}}</h1>
+            {% if app.request.headers.get('referer') != app.request.uri %}
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary">Revenir à la
+                catégorie</a>
+            {% endif %}
         </div>
-        <div class="card">
-            <img style="object-fit: cover" height="300" class="border rounded" alt="{{recipe.title}}" src="{{ vich_uploader_asset(recipe, 'imageFile') }}">
-            <div class="my-1 p-2" >
-                <div class="my-1 p-2">
-                    <h4>Ingredients</h4>
-                    <div class="d-flex flex-row flex-wrap" >
-                        {% for recipeIngredient in recipe.recipeIngredients %}
-                            <div class="d-flex flex-column align-items-center m-2">
-                                <div style="width: 80px;height: 80px " class="card d-flex flex-column align-items-center justify-content-center shadow-sm mx-3 ">
-                                    <img style="object-fit: cover;width: 60px" src=" {{vich_uploader_asset(recipeIngredient.ingredient,'imageFile')}}" />
-                                </div>
-                                <span>{{ recipeIngredient.quantity}} {{ recipeIngredient.unit == "unit" ? "" : recipeIngredient.unit}}</span>
-                                <span style="font-size: 0.9em">  {{recipeIngredient.ingredient.name}}</span>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="my-1 p-2">
-                    <div class="d-flex flex-column">
-                        {% set count = 1 %}
-                        {% for step in recipe.recipeSteps %}
-                            <div class="d-flex flex-column m-2 mx-4">
-                                <h4>Etape {{count}}</h4>
-                                <p>{{step.content}}</p>
-                            </div>
-                            {% set count = count +1  %}
-                        {% endfor %}
-
-                    </div>
-                </div>
-            </div>
+        <div id="react-root" class="card recipe-view" data-message="{{ json.content }}" data-auth="{{isAuthor}}" >
         </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts%}
+    <script>
+        window.reactProps = {{ json|raw }};
+    </script>
     {{parent()}}
+    {{ encore_entry_script_tags( 'react-root') }}
 {% endblock%}

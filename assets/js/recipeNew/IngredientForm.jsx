@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import {ErrorMessage, FastField, Field, getIn, isEmptyArray} from 'formik';
 import {Autocomplete, CircularProgress, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
+import {ingredientsUnit} from "../config";
 
 const IngredientForm = ({index, remove,setFieldValue,...props}) => {
     const [currentIngredients, setCurrentIngredients] = useState([{name: ''}])
@@ -8,7 +9,7 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
     const handleIngredientChange = (e)=>{
         setLoading(true);
         setTimeout(()=>{
-            fetch('https://127.0.0.1:8000/api/recipe/ingredients?' + new URLSearchParams({
+            fetch('/api/recipe/ingredients?' + new URLSearchParams({
                 ingredient : e.target.value,
             }))
                 .then(res=> res.json())
@@ -19,6 +20,18 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
         },500)
 
     }
+
+    const ingredientsUnitSelectItems = ()=> {
+        const data = [];
+        ingredientsUnit.forEach((cat)=>{
+            data.push(  <ListSubheader key={cat.catName} className="text-black text-bg-light">{cat.catName}</ListSubheader> )
+            cat.catValues.forEach((value)=>{
+                data.push( <MenuItem key={value.value} className="text-secondary" value={value.value}>{value.name}</MenuItem>)
+            })
+        })
+        return data
+    }
+
     return (
         <div className="d-flex flex-row align-items-start my-1">
             <div className="d-flex flex-column mx-2">
@@ -89,23 +102,9 @@ const IngredientForm = ({index, remove,setFieldValue,...props}) => {
                     defaultValue=""
                     fullWidth
                 >
-                    <ListSubheader className="text-black text-bg-light">Solide</ListSubheader>
-                        <MenuItem className="text-secondary" value="mg">Milligramme (mg)</MenuItem>
-                        <MenuItem className="text-secondary" value="g">Gramme (g)</MenuItem>
-                        <MenuItem className="text-secondary" value="Kg">Kilogramme (Kg)</MenuItem>
-                        <MenuItem className="text-secondary" value="cm">Centimetre (cm)</MenuItem>
-                        <MenuItem className="text-secondary" value="cs">C. à soupe</MenuItem>
-                        <MenuItem className="text-secondary" value="cc">C. à café</MenuItem>
-                    <ListSubheader className="text-black text-bg-light">Liquide</ListSubheader>
-                        <MenuItem className="text-secondary" value="ml">Millilitre (ml)</MenuItem>
-                        <MenuItem className="text-secondary" value="cl">Centilitre (cl)</MenuItem>
-                        <MenuItem className="text-secondary" value="L">Litre (L)</MenuItem>
-                    <ListSubheader className="text-black text-bg-light">Autre</ListSubheader>
-                        <MenuItem className="text-secondary" value="bouquet">bouquet</MenuItem>
-                        <MenuItem className="text-secondary" value="gousse">gousse</MenuItem>
-                        <MenuItem className="text-secondary" value="graine">graine</MenuItem>
-                        <MenuItem className="text-secondary" value="pince">pincée</MenuItem>
-                        <MenuItem className="text-secondary" value="unit">unité</MenuItem>
+                    {
+                        ingredientsUnitSelectItems()
+                    }
                 </FastField>
             </div>
             <button

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ErrorMessage, FastField, Field, FieldArray, Form, Formik, getIn} from 'formik';
-import {Autocomplete, InputLabel, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
+import {ErrorMessage, FastField, getIn} from 'formik';
+import {TextField} from "@mui/material";
 
 const StepForm = ({index, remove,...props}) => {
     return (

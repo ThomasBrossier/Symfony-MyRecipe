@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -85,6 +87,7 @@ class Recipe
     private ?string $picture = null;
 
     #[Vich\UploadableField(mapping: 'recipe_pic', fileNameProperty: 'picture')]
+    #[Ignore]
     private ?File $imageFile = null;
 
     public function __construct()
@@ -305,4 +308,5 @@ class Recipe
     {
         return $this->imageFile;
     }
+
 }

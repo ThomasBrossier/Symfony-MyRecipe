@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { pathIngredient } from '../../config';
-const Base = ({recipeIngredient, handleIngredientClick}) => {
+const Ingredient = ({recipeIngredient, handleIngredientClick, editMode}) => {
 
 
     return (
-        <button className="btn d-flex flex-column align-items-center m-2" onClick={ ()=>handleIngredientClick(recipeIngredient.id) }>
+        <button className="btn d-flex flex-column align-items-center m-2" onClick={ editMode ? ()=>handleIngredientClick(recipeIngredient.id) : '' }>
             <div style={{width: "80px",height: "80px"}}
                  className="card d-flex flex-column align-items-center justify-content-center shadow-sm mx-3 ">
                 <img alt={recipeIngredient.ingredient.name} style={{ objectFit: "cover",width: "60px",maxHeight:"75px"}}
@@ -18,4 +18,4 @@ const Base = ({recipeIngredient, handleIngredientClick}) => {
         </button>
     );
 }
-export default Base;
+export default Ingredient;

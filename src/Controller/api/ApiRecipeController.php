@@ -27,32 +27,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *  Controller for api crud requests
  */
 #[Route('/api')]
-
 class ApiRecipeController extends AbstractController
 {
-
-    /**
-     * @param Request $request
-     * @param IngredientRepository $ingredientRepository
-     * @param SerializerInterface $serializer
-     * @return Response
-     */
-    #[Route('/recipe/ingredients', name: 'app_recipe_ingredients', methods: ['GET'])]
-    public function getIngredients(Request $request, IngredientRepository $ingredientRepository , SerializerInterface $serializer): Response
-    {
-        $ingredients = $ingredientRepository->findLike($request->get('ingredient'));
-        return $this->json(
-            json_decode(
-                $serializer->serialize(
-                    $ingredients,
-                    'json',
-                    [AbstractNormalizer::IGNORED_ATTRIBUTES => ['recipeIngredients','category','imageFile']]
-                ),
-                JSON_OBJECT_AS_ARRAY
-            )
-        );
-    }
-
     /**
      * @param Request $request
      * @param RecipeRepository $recipeRepository
@@ -117,19 +93,6 @@ class ApiRecipeController extends AbstractController
             return  new JsonResponse(['status'=>'400','error'=>'Le formulaire n\'a pas été rempli correctement'],400);
         }
     }
-
-    #[Route('/recipe/update/{id}', name: 'app_recipe_update', methods: ['POST'])]
-    public function updateRecipe(Request $request, UserRepository $userRepository, Recipe $recipe): Response
-    {
-        $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
-        if($user->getId() !== $recipe->getAuthor()->getUser()->getId()){
-            return new JsonResponse(['status'=>'403','result'=>'Vous ne pouvez pas modifier cette recette'],403);
-        }
-        return new JsonResponse(['status'=>'200','result'=>'Recette modifiée'],200);
-    }
-
-
-
 
 }
 

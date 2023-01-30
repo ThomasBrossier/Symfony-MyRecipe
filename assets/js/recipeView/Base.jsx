@@ -144,13 +144,18 @@ const Base = ({recipeIngredients}) => {
                     <h4>Ingredients</h4>
                     <div className="d-flex flex-row flex-wrap">
                         {recipeIngredients.map((recipeIngredient)=>{
-                            return <Ingredient key={recipeIngredient.id} handleIngredientClick={handleIngredientClick} recipeIngredient={recipeIngredient}/>
+                            return <Ingredient key={recipeIngredient.id} editMode={editMode} handleIngredientClick={handleIngredientClick} recipeIngredient={recipeIngredient}/>
                         })}
-                        <button style={{width: "80px",height: "80px"}}
-                                className="btn btn-secondary m-2 mx-4"
-                                onClick={()=>openModal()}>
-                            <i className="m-0 fa-solid fa-plus h2 text-light"></i>
-                        </button>
+                        {
+                            editMode ?
+                                <button style={{width: "80px",height: "80px"}}
+                                        className="btn btn-secondary m-2 mx-4"
+                                        onClick={()=>openModal()}>
+                                    <i className="m-0 fa-solid fa-plus h2 text-light"></i>
+                                </button>
+                                : ''
+                        }
+
                     </div>
                 </div>
 

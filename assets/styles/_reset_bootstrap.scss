@@ -35,3 +35,20 @@
   max-height: 100px;
   object-fit: contain;
 }
+
+.btn-primary{
+  background-color: $primary;
+  border-color: $primary;
+  &:active , &:hover{
+    background-color: $primary-dark;
+    border-color: $primary-dark;
+  }
+}
+.btn-secondary{
+  background-color: $secondary;
+  border-color: $secondary;
+  &:active , &:hover{
+    background-color: $secondary-dark;
+    border-color: $secondary-dark;
+  }
+}

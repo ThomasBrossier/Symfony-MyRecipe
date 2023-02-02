@@ -7,70 +7,6 @@
   background-size: cover;
 }
 
-
-/*============== Category Card ===============*/
-.category_cards{
-  gap: 10px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  .category_card{
-    flex: 1;
-    height: 300px;
-    position :relative;
-    text-decoration: none;
-    font-weight: bold;
-    color: $text_light;
-    border-radius: 5px;
-
-    &:hover{
-      cursor: pointer;
-      color: $text-light;
-      img{
-        filter: brightness(1);
-        transition: filter 500ms;
-      }
-
-    }
-    span{
-      position: absolute;
-      top: 20%;
-      left: 10%;
-      z-index: 1;
-      font-size: 2rem;
-    }
-    img{
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      filter: brightness(0.6);
-      border-radius: 5px;
-    }
-}
-}
-
-/*============== Show Recipe ===============*/
-
-.recipe-view{
-  .recipe-image{
-    height: 300px;
-    object-fit: cover;
-  }
-}
-
-.step-row{
-  .main-btn{
-    display: none;
-  }
-  &:hover{
-    background-color: lightblue;
-    .main-btn{
-      display: block;
-    }
-  }
-}
-
 .my-modal{
   display: flex;
   flex-flow: column nowrap;
@@ -78,7 +14,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 800px;
   padding: 1rem;
   z-index: 999;
   background-color: white;

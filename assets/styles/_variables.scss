@@ -1,8 +1,19 @@
+/*=================Screen Size=============*/
+
+$xs:320px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
 
 /*============== Colors ===============*/
 
-$primary : #FE938C;
-$secondary :#E6B89C;
+$primary : #3498db;
+$primary-dark: #2980b9;
+$dark: #2c3e50;
+$danger: #c0392b;
+$secondary:#34495e;
+$secondary-dark :#2c3e50;
 $beige : #E6B89C;
 $grey : #9CAFB7;
 $blue : #9CAFB7;
@@ -10,7 +21,7 @@ $violet : #5B5F97;
 
       /*============== Background ===============*/
 
-$bg_light : lightgray;
+$bg_light : #ecf0f1;
 $bg_dark : grey;
 $bg_header : grey ;
 $bg_footer : #211A1D;
@@ -19,8 +30,8 @@ $bg_aside : #343a40;
 /*============== Text ===============*/
 
 $text_primary : #6b717f;
-$text_light : white;
-$title_color : black;
+$text_light : #fff;
+$title_color : #2c3e50;
 
 
 
@@ -39,3 +50,8 @@ $logo_size : 1.8rem;
 
 $shadow : 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22);
 $shadow_circle : 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23) !important;
+
+/*============== Border ===============*/
+
+$border : 1px solid #eee;
+$border-radius : 3px;

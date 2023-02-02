@@ -1,0 +1,58 @@
+@import "assets/styles/general";
+@import "assets/styles/mixins";
+
+
+/*================= Category Page =====================*/
+
+.container{
+  padding-top : 2rem;
+  .category-card{
+    flex: 1;
+    @include medium{
+      flex-shrink: 1;
+      max-width: 400px;
+    }
+  }
+}
+
+/*================= Show Recipe Page =====================*/
+
+#react-root{
+   display: flex;
+   flex-flow: column nowrap;
+ }
+.ingredient-input{
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  .MuiAutocomplete-root, .MuiFormControl-root{
+    width: 100%;
+  }
+}
+
+.recipe-view{
+  .recipe-image{
+    height: 300px;
+    object-fit: cover;
+  }
+  .add-ingredient-btn{
+    margin: 1rem 2rem;
+    box-shadow: $shadow;
+    background-color: $primary;
+    &:active{
+      background-color: $primary-dark;
+    }
+  }
+}
+
+.step-row{
+  display: flex;
+  flex: 1;
+  margin: 1rem 2rem;
+  align-items: center;
+  justify-content: space-evenly;
+  .main-btn{
+    display: block;
+  }
+}

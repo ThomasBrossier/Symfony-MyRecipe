@@ -69,7 +69,7 @@ class RecipeController extends AbstractController
     public function show(Recipe $recipe, RecipeRepository $recipeRepository): Response
     {
         $recipe = $recipeRepository->findCompleteOneById($recipe->getId());
-        if( $this->getUser()->getUserIdentifier() === $recipe->getAuthor()->getUser()->getUserIdentifier()){
+        if( $this->getUser()?->getUserIdentifier() === $recipe->getAuthor()->getUser()->getUserIdentifier()){
             $isAuthor = true;
         }else{
             $isAuthor = false;

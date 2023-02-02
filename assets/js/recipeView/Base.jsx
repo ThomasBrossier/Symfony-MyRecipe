@@ -142,14 +142,14 @@ const Base = ({recipeIngredients}) => {
         <>
                 <div className="my-1 p-2">
                     <h4>Ingredients</h4>
-                    <div className="d-flex flex-row flex-wrap">
+                    <div className="d-flex flex-row flex-wrap justify-content-evenly">
                         {recipeIngredients.map((recipeIngredient)=>{
                             return <Ingredient key={recipeIngredient.id} editMode={editMode} handleIngredientClick={handleIngredientClick} recipeIngredient={recipeIngredient}/>
                         })}
                         {
                             editMode ?
                                 <button style={{width: "80px",height: "80px"}}
-                                        className="btn btn-secondary m-2 mx-4"
+                                        className="btn add-ingredient-btn"
                                         onClick={()=>openModal()}>
                                     <i className="m-0 fa-solid fa-plus h2 text-light"></i>
                                 </button>
@@ -166,52 +166,59 @@ const Base = ({recipeIngredients}) => {
                     aria-describedby="modal-modal-description"
                 >
                     <div className="my-modal">
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex justify-content-between align-items-center mb-4">
                             <h4>{editIngredient ? 'Modifier' : 'Ajouter'} un ingredient</h4>
                             <button className="btn btn-danger" onClick={()=>setOpenedModal(false)} ><i className="m-0 fa-solid fa-xmark"></i></button>
                         </div>
-                        <div className="d-flex justify-content-between align-items-center">
-                            <Autocomplete
-                                          sx={{flex:2}}
-                                          options={currentIngredients}
-                                          loading={loading}
-                                          value={ingredient !== ( ''|| undefined ) ? ingredient : ''}
-                                          onChange={(e,value)=> setIngredient(value)}
-                                          getOptionLabel={(option ) => option.name ?? ''}
-                                          isOptionEqualToValue={(option ) => option.name}
-                                          noOptionsText={"Cette ingredient n'est pas répertorié"}
-                                          loadingText={"Chargement..."}
-                                          renderInput={(params) =>(
-                                              <TextField {...params}
-                                                         label="Ingredient... (ex : tomate)"
-                                                         onChange={(e)=>handleIngredientChange(e)}
-                                                         InputProps={{
-                                                              ...params.InputProps,
-                                                              endAdornment: (
-                                                                 <>
-                                                                   {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                                                                   {params.InputProps.endAdornment}
-                                                                 </>
-                                                                 ),
-                                                              }}
-                                              />)}
-                                          />
-                            <TextField sx={{flex:1}}
-                                       inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                                       label="Quantité"
-                                       value={quantity}
-                                       onChange={(e)=> setQuantity(e.target.value)} />
-                            <TextField sx={{flex:1}}
-                                       defaultValue=""
-                                       select
-                                       value={unit}
-                                       onChange={(e)=> setUnit(e.target.value)}
-                                       label="Unité de mesure"
-                                       >
-                                {
-                                    ingredientsUnitSelectCat()
-                                }
-                            </TextField>
+                        <div className="d-flex flex-column flex-md-row justify-content-between">
+                            <div className="ingredient-input">
+                                <Autocomplete
+                                    options={currentIngredients}
+                                    loading={loading}
+                                    value={ingredient !== ( ''|| undefined ) ? ingredient : ''}
+                                    onChange={(e,value)=> setIngredient(value)}
+                                    getOptionLabel={(option ) => option.name ?? ''}
+                                    isOptionEqualToValue={(option ) => option.name}
+                                    noOptionsText={"Cette ingredient n'est pas répertorié"}
+                                    loadingText={"Chargement..."}
+                                    renderInput={(params) =>(
+                                        <TextField {...params}
+                                                   label="Ingredient... (ex : tomate)"
+
+                                                   onChange={(e)=>handleIngredientChange(e)}
+                                                   InputProps={{
+                                                       ...params.InputProps,
+                                                       endAdornment: (
+                                                           <>
+                                                               {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                                               {params.InputProps.endAdornment}
+                                                           </>
+                                                       ),
+                                                   }}
+                                        />)}
+                                />
+                            </div>
+                            <div className="ingredient-input">
+                                <TextField
+                                           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                           label="Quantité"
+                                           value={quantity}
+                                           onChange={(e)=> setQuantity(e.target.value)} />
+                            </div>
+                            <div className="ingredient-input">
+                                <TextField
+                                           defaultValue=""
+                                           select
+                                           value={unit}
+                                           onChange={(e)=> setUnit(e.target.value)}
+                                           label="Unité de mesure"
+                                >
+                                    {
+                                        ingredientsUnitSelectCat()
+                                    }
+                                </TextField>
+                            </div>
+
                         </div>
                         {newIngredientError ? <p className="text-danger" >{newIngredientError}</p> : ''}
                         <div className="d-flex justify-content-end align-items-center">

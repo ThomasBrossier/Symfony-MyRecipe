@@ -1,26 +1,38 @@
 <header>
     <div class="logo">
-        <img  height="120" src="{{asset('build/images/logo.svg')}}" /><span>MES RECETTES</span>
+        <a href="{{path('app_main')}}"><img src="{{asset('build/images/logo.svg')}}" /></a>
+        <span>MES RECETTES</span>
     </div>
     {% if app.user is defined and is_granted('ROLE_USER') %}
-        <div class="dropdown profile">
-            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="rounded-circle" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}" alt="unknown profile picture">
-            </button>
-            <ul class="dropdown-menu">
-                <li class="badge text-bg-light mx-3 my-2">{{ app.user.userIdentifier }}</li>
-                <li><a class="dropdown-item" href="{{path('app_profile')}}">Mon Profil</a></li>
-                <li><a class="dropdown-item" href="#">Mon livre de recette</a></li>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{path('app_dashboard')}}">Panneau d’administration</a></li>
-                {% endif %}
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{path('app_logout')}}">Se déconnecter</a></li>
-            </ul>
-        </div>
+        <div class="profile">
+            {#<button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
+            </button>#}
+            <div class="profile-mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="profile-toggle">
+                <img class="rounded-circle" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}" alt="unknown profile picture">
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+        </div>
     {% else %}
         <div class="profile"><a class="btn btn-primary" href="{{path('app_login')}}">Se connecter</a></div>
     {% endif %}
 </header>
+{% if app.user is defined and is_granted('ROLE_USER') %}
+<ul class="profile-menu">
+    <li class="badge text-bg-light mx-3 my-2">
+        <img class="rounded-circle" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}" alt="unknown profile picture">
+        <span>{{ app.user.userIdentifier }}</span>
+    </li>
+    <li><a class="dropdown-item" href="{{path('app_profile')}}">Mon Profil</a></li>
+    <li><a class="dropdown-item" href="#">Mon livre de recette</a></li>
+    {% if is_granted('ROLE_ADMIN') %}
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{{path('app_dashboard')}}">Panneau d’administration</a></li>
+    {% endif %}
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="{{path('app_logout')}}">Se déconnecter</a></li>
+</ul>
+{%endif%}

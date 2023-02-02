@@ -1,5 +1,9 @@
 {% extends 'base.html.twig'%}
 {% block title%}Mon Profil{%endblock%}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_profile') }}
+{% endblock %}
 {% block body %}
         {{ include('front/profile/_sidebar.html.twig')}}
         <main>

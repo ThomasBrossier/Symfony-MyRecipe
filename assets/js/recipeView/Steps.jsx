@@ -48,7 +48,7 @@ const Base = ({recipeSteps}) => {
 
     return (
         <div className="my-1 p-2">
-            <div className="d-flex flex-column align-items-start">
+            <div className="d-flex flex-column">
                 {
                     recipeSteps.map((recipeStep, index)=>{
                         return  <Step key={recipeStep.id+"-"+(Math.random()*10000)} index={index} recipeStep={recipeStep}   />
@@ -56,7 +56,7 @@ const Base = ({recipeSteps}) => {
                 }
                 {
                     addingStep ?
-                    <div className="d-flex flex-row m-2 mx-4 align-items-center  justify-content-evenly w-75">
+                    <div className="d-flex flex-row m-2 mx-4 align-items-center  justify-content-evenly">
                         <div className="d-flex flex-column w-75">
                         <textarea className="w-100" value={newStep} onChange={handleNewStepChange} />
                             { error ?  <p className="text-danger mt-2">{errorMessage}</p> : ""}
@@ -73,7 +73,7 @@ const Base = ({recipeSteps}) => {
                     </div>
                     :
                     editMode ?
-                        <button className="btn btn-secondary" onClick={()=>setAddingStep(true)} >
+                        <button className="btn btn-secondary align-self-center" onClick={()=>setAddingStep(true)} >
                             Ajouter une étape<i className="fa-solid fa-plus"></i>
                         </button>
 

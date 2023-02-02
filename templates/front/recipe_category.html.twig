@@ -2,11 +2,16 @@
 
 {% block title %}Recette de {{category.name}} {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_show_recipe') }}
+{% endblock %}
+
 {% block body %}
     <div class="container my-4" >
         <h1 class="my-3" >Recette de {{category.name}}</h1>
         {% for recipe in recipes %}
-            <div class="card w-25">
+            <div class="card category-card">
                 <a href="{{path('app_recipe_show',{id: recipe.id})}}">
                     <img height="300" style="object-fit: cover" class="border rounded w-100" alt="{{recipe.title}}" src="{{ vich_uploader_asset(recipe, 'imageFile') }}">
                     <div class="p-2" >

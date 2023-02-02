@@ -119,8 +119,8 @@ const RecipeForm = () => {
                                 }
                             </FastField>
                         </div>
-                        <div className="d-flex flex-row justify-content-between">
-                            <div className="mb-3 form-group w-50">
+                        <div className="d-flex flex-column flex-sm-row justify-content-between">
+                            <div className="mb-3 form-group d-flex flex-column align-items-center align-items-sm-start">
                                 <FastField
                                     type="text"
                                     as={TextField}
@@ -131,8 +131,7 @@ const RecipeForm = () => {
                                     placeholder="Ex: 1, 4... "
                                 />
                             </div>
-                            <div className="mb-3 form-group d-flex flex-colum align-items-end w-50">
-                                <img src={currentPictureName} alt="Photo de la recette" className="w-25" />
+                            <div className="mb-3 form-group d-flex flex-column align-items-center align-items-sm-end ">
                                 <Input
                                     id="picture"
                                     name="picture"
@@ -140,6 +139,7 @@ const RecipeForm = () => {
                                     onChange={(e)=>UploadFile(e, setFieldValue)}
                                 />
                                 <ErrorMessage className="text-danger" name="picture" component="div" />
+                                <img src={currentPictureName} alt="Photo de la recette" className="w-50" />
                             </div>
                         </div>
 

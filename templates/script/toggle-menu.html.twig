@@ -1,0 +1,13 @@
+<script>
+    let toggleMobileButton = document.querySelector('.profile-mobile-toggle');
+    let toggleButton = document.querySelector('.profile-toggle');
+    const menu = document.querySelector('.profile-menu')
+    toggleMobileButton.addEventListener('click',()=>{
+        toggleMobileButton.classList.toggle('active');
+        menu.classList.toggle('show');
+    })
+    toggleButton.addEventListener('click',()=>{
+        toggleButton.classList.toggle('active');
+        menu.classList.toggle('show');
+    })
+</script>

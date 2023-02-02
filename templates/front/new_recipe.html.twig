@@ -2,10 +2,15 @@
 
 {% block title %}Créer une recette{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_new_recipe') }}
+{% endblock %}
+
 {% block body %}
-    <div class="container my-4" >
-        <h1 class="my-3" >Créer une recette</h1>
-        <div id="react_form" class="d-flex flex-column">
+    <div class="container-md my-4" >
+        <h1>Créer une recette</h1>
+        <div id="react_form">
         </div>
     </div>
 {% endblock %}

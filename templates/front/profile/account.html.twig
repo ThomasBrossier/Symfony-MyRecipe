@@ -8,20 +8,20 @@
 {% block body %}
         {{ include('front/profile/_sidebar.html.twig')}}
         <main>
-            <div class="card d-flex flex-row justify-content-between m-4">
+            <div class="card">
                 <div class="avatar">
-                    <img alt="photo de profile" class="position-relative" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}">
+                    <img alt="photo de profile" src="{{ asset('/images/avatars/') }}{{ app.user.profile.avatar ? app.user.profile.avatar : "default.webp" }}" />
                     <a class="btn btn-secondary" title="Modifier votre photo" data-toggle="tooltip"  data-bs-toggle="offcanvas" href="#offcanvasAvatar" role="button" aria-controls="offcanvasAvatar"><i class="fa-solid fa-camera"></i></a>
                 </div>
-                <div class="mx-4 d-flex flex-column justify-content-evenly w-75">
-                    <div class="d-flex flex-row justify-content-start align-items-center">
-                        <div class="d-flex flex-column flex-grow-1">
-                            <span class="border-bottom my-2" >Nom : <b>{{app.user.profile.firstname}}</b></span>
-                            <span class="border-bottom my-2">Prénom : <b>{{app.user.profile.lastname}}</b></span>
+                <div class="infos">
+                    <div class="name">
+                        <div>
+                            <span>Nom : <b>{{app.user.profile.firstname}}</b></span>
+                            <span>Prénom : <b>{{app.user.profile.lastname}}</b></span>
                         </div>
-                        <a class="btn btn-primary flex-grow-0 mx-2" title="Modifier vos informations" data-toggle="tooltip"  data-bs-toggle="offcanvas" href="#offcanvasProfile" role="button" aria-controls="offcanvasProfile"><i class="fa-solid fa-user-pen"></i>Modifier mes informations</a>
+                        <a class="btn btn-primary" title="Modifier vos informations" data-toggle="tooltip"  data-bs-toggle="offcanvas" href="#offcanvasProfile" role="button" aria-controls="offcanvasProfile"><i class="fa-solid fa-user-pen"></i>Modifier mes informations</a>
                     </div>
-                    <div class="d-flex flex- align-items-center">
+                    <div class="d-flex align-items-md-center">
                         <a href="{{path('app_forgot_password_request')}}" class="btn btn-primary">Modifier mon mot de passe</a>
                     </div>
                 </div>

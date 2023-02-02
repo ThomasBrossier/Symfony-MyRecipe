@@ -1,5 +1,6 @@
 @import "variables";
 @import "reset_bootstrap";
+@import "assets/styles/mixins";
 
 *{
   margin:0;
@@ -10,6 +11,7 @@ body{
   font-family: 'Roboto', sans-serif;
   background: $bg_light;
   width: 100vw;
+  color: $title_color;
   min-height: 100vh;
   display: flex ;
   flex-flow: column nowrap;
@@ -22,36 +24,125 @@ i{
 }
 a{
   text-decoration: none;
+  color: inherit;
+}
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 header{
-  background: $blue;
-  height: $header_height;
+  background: $primary;
+  box-shadow: $shadow;
+  padding : 0 2rem 1rem 2rem;
   display: flex;
-  justify-content: space-between;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   align-items: center;
-  padding: 0 1rem;
-  .logo{
-    font-weight: bold;
+  justify-content: space-between;
+  height: auto;
+  @include xs{
 
+
+  }
+  @include small{
+    padding-bottom: 0;
+    height: $header_height;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 999;
+    @include small{
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+    font-weight: bold;
     font-size : $logo_size ;
     font-family: 'Indie Flower', cursive;
-    img{
-      margin-top: $header_height;
-      z-index: 9999;
-      position: relative;
+    span{
+      color: $text_light;
+    }
+    a{
+      height: auto;
+      @include small{
+        height:$header_height;
+      }
+      img{
+        height: 120px;
+      }
     }
   }
   .profile{
-
-    button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .profile-toggle{
+      display: none;
+      align-items: center;
+      padding:0.5rem ;
+      border-radius: $border-radius;
+      &.active{
+        background-color: $primary-dark;
+      }
       img{
         width: $header_height - 20px;
       }
+      @include large{
+        display: flex;
+      }
     }
-  .connected{
-
+    .profile-mobile-toggle{
+      display: flex;
+      width: 50px;
+      height: 50px;
+      border-radius: $border-radius;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      i{
+        margin: 0;
+        color: $text-light;
+      }
+      &.active{
+        background-color: $primary-dark;
+      }
+      @include large{
+        display: none;
+      }
+    }
   }
+}
+.profile-menu{
+  background-color: white;
+  display: none;
+  flex-direction: column;
+  z-index: 998;
+  box-shadow: $shadow;
+  &.show{
+    display: flex;
+  }
+  @include large{
+    width: 30%;
+    position: absolute;
+    top: $header-height;
+    right: 0;
+    align-self: flex-end;
+  }
+  @include xl{
+    width: 20%;
+  }
+  li {
+    img{
+      width: $header_height - 20px;
+    }
+    a{
+      padding: 1rem;
+    }
   }
 }
 
@@ -61,6 +152,7 @@ header{
   flex-flow: row wrap;
 }
 
+
 main{
   padding: 1.5rem;
   flex: 3;
@@ -69,10 +161,11 @@ main{
 }
 aside{
   background: $bg_aside;
-  padding-top : 3rem;
   flex: 1;
-  z-index: 5;
-  min-height: calc(100vh - #{$header_height} - #{$footer_height});
+  min-height: auto ;
+  @include large {
+    min-height: calc(100vh - #{$header_height} - #{$footer_height});
+  }
   box-shadow: $shadow;
 }
 footer{
@@ -86,4 +179,18 @@ footer{
 }
 .vich-image img{
   width: 150px;
+}
+
+
+/*=================Utils======================*/
+
+.block{
+  border-radius: 4px;
+  border: $border;
+  background-color: white;
+  box-shadow: $shadow;
+}
+
+.overflow{
+  overflow: hidden;
 }

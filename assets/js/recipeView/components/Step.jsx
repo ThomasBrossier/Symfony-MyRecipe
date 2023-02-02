@@ -75,7 +75,7 @@ const Step = ({recipeStep, index}) => {
     }
 
     return (
-        <div className="step-row d-flex  m-2 mx-4 align-items-center  justify-content-evenly w-75 ">
+        <div className="step-row">
             <h4>{index + 1 }</h4>
             {
                 !editing ?
@@ -83,7 +83,8 @@ const Step = ({recipeStep, index}) => {
                         <p className="m-3 w-75">{stepContent}</p>
                         { editMode ?
                             <>
-                                <button className="btn btn-primary main-btn" onClick={() => setEditing(true)}>Editer</button>
+                                <button className="btn btn-primary main-btn" onClick={() => setEditing(true)}><i
+                                    className="fa-solid fa-pen-to-square m-0"></i></button>
                                 <button className="btn btn-danger mx-1 main-btn" onClick={deleteStep}><i
                                     className="fa-solid fa-trash mx-0"></i></button>
                             </>
@@ -92,8 +93,8 @@ const Step = ({recipeStep, index}) => {
 
                 :
                     <>
-                        <div className="d-flex flex flex-column w-75">
-                            <textarea className="w-100" value={ stepContent } onChange={handleChange}/>
+                        <div className="d-flex flex flex-column flex-grow-1 ">
+                            <textarea className="mx-2" value={ stepContent } onChange={handleChange}/>
                             { error ?  <p className="text-danger mt-2">{errorMessage}</p> : ""}
                         </div>
                         <button className="btn btn-success" onClick={()=>updateContent()}>Modifier</button>

@@ -1,5 +1,17 @@
 @import "assets/styles/general";
 
+.content{
+  display: flex;
+  flex-flow: column nowrap;
+  @include medium{
+    flex-flow: row nowrap;
+  }
+  main{
+    .card{
+    }
+  }
+}
+
 .admin_submenu{
   list-style-type: none;
   padding: 0;

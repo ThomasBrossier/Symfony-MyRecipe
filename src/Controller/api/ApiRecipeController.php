@@ -59,12 +59,12 @@ class ApiRecipeController extends AbstractController
             $user = $userRepository->findOneBy(['email'=> $this->getUser()->getUserIdentifier() ]) ;
             $category =  $categoryRecipeRepository->find($datas['category']);
             $recipe = new Recipe();
-            $recipe->setTitle($datas['title'])
-                ->setOrigin($datas['origin'])
+            $recipe->setTitle(htmlspecialchars($datas['title'],ENT_NOQUOTES))
+                ->setOrigin(htmlspecialchars($datas['origin'],ENT_NOQUOTES))
                 ->addCategory($category)
                 ->setSlug($slugger->slug($recipe->getTitle()) )
                 ->setAuthor($user->getProfile())
-                ->setPerson($datas['person']);
+                ->setPerson(htmlspecialchars($datas['person'],ENT_NOQUOTES));
 
             foreach ($datas['ingredients'] as $ingredient){
                 $newIngredient = $ingredientRepository->find($ingredient->name);
@@ -78,7 +78,7 @@ class ApiRecipeController extends AbstractController
 
             foreach ($datas['steps'] as $step){
                 $newStep = new RecipeStep();
-                $newStep->setContent($step);
+                $newStep->setContent(htmlspecialchars($step,ENT_NOQUOTES));
                 $recipe->addRecipeStep($newStep);
             }
             $recipe->setImageFile($file);

@@ -58,7 +58,7 @@ class ApiRecipeStepsController extends AbstractController
         if(!$stepToUpdate){
             return new JsonResponse(['status'=>'500','result'=>'Erreur lors de la mise à jour'],500);
         }else{
-            $stepToUpdate->setContent($step->content);
+            $stepToUpdate->setContent( htmlspecialchars($step->content,ENT_NOQUOTES));
             $recipeStepRepository->save($stepToUpdate,true);
         }
 

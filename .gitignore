@@ -29,6 +29,5 @@ yarn-error.log
 ###> Images ###
 /public/ingredients/
 /public/recipes/
-/public/category/
 /public/images/
 ###< Images ###
